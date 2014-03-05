@@ -98,7 +98,11 @@ p {
 }
 
 footer p {
-  color: #f2f2f2;
+  color:#ddd;
+}
+
+footer p a {
+  color:#bbb;
 }
 
 a {
@@ -311,6 +315,10 @@ Full-Width Styles
   font-weight: 300;
   background: none;
   text-shadow: #111 0px 0px 10px;
+  margin:0px;
+  padding:0px;
+  position: relative;
+  top:-10px;
 }
 
 #downloads {
@@ -363,6 +371,10 @@ Full-Width Styles
 
 #footer_wrap {
   background: #F2F2F2;
+}
+
+.copyright {
+  margin-top:30px;
 }
 
 
