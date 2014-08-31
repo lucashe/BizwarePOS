@@ -29,6 +29,12 @@ class UsersController < ApplicationController
 
     respond_to do |format|
       if @user.save
+        
+        #@user_store = @user.StoreConfiguration.new
+        #@user_store_branch = @user.StoreBranch.new
+        #@user_store.save
+        #@user_store_branch.save
+        
         format.html { redirect_to @user, notice: 'user was successfully created.' }
         format.json { render action: 'show', status: :created, location: @user }
       else
@@ -63,6 +69,10 @@ class UsersController < ApplicationController
 
     respond_to do |format|
       if @user.update(user_params)
+
+        # Prevent user to be logged out after update
+        sign_in(@user, :bypass => true)
+
         format.html { redirect_to @user, notice: 'user was successfully updated.' }
         format.json { head :no_content }
       else
@@ -87,13 +97,14 @@ class UsersController < ApplicationController
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
-    def set_user
-      @user = User.find(params[:id])
-    end
 
-    # Never trust parameters from the scary internet, only allow the white list through.
-    def user_params
-      params.require(:user).permit(:email, :username, :password, :password_confirmation, :remember_me, :can_update_users, :can_update_items, :can_update_configuration, :can_view_reports, :can_update_sale_discount, :can_remove_sales)
-    end
+  # Use callbacks to share common setup or constraints between actions.
+  def set_user
+    @user = User.find(params[:id])
+  end
+
+  # Never trust parameters from the scary internet, only allow the white list through.
+  def user_params
+    params.require(:user).permit(:email, :username, :password, :password_confirmation, :remember_me, :can_update_users, :can_update_items, :can_update_configuration, :can_view_reports, :can_update_sale_discount, :can_remove_sales, roles: [])
+  end
 end

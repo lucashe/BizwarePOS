@@ -20,10 +20,10 @@ class DashboardController < ApplicationController
 	end
 
 	def get_tax_rate
-    if @configurations.tax_rate.blank?
+    if @current_store.tax_rate.blank?
       return 0.00
     else
-      return @configurations.tax_rate.to_f * 0.01
+      return @current_store.tax_rate.to_f * 0.01
     end
   end
 

@@ -1,5 +1,4 @@
 class SalesController < ApplicationController
-  before_action :set_configurations
 
   def index
     @sales = Sale.paginate(:page => params[:page], :per_page => 20, :order => 'id DESC')
@@ -332,10 +331,10 @@ class SalesController < ApplicationController
     end
 
     def get_tax_rate
-      if @configurations.tax_rate.blank?
+      if @current_store.tax_rate.blank?
         return 0.00
       else
-        return @configurations.tax_rate.to_f * 0.01
+        return @current_store.tax_rate.to_f * 0.01
       end
     end
 

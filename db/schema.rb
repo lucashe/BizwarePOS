@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140420165735) do
+ActiveRecord::Schema.define(version: 20140831160836) do
 
   create_table "customers", force: true do |t|
     t.string   "first_name"
@@ -78,7 +78,26 @@ ActiveRecord::Schema.define(version: 20140420165735) do
     t.datetime "updated_at"
   end
 
-  create_table "store_configurations", force: true do |t|
+  create_table "store_branches", force: true do |t|
+    t.integer  "store_id"
+    t.string   "branch_name"
+    t.text     "branch_description"
+    t.string   "email_address"
+    t.string   "phone_number"
+    t.string   "website_url"
+    t.string   "addr_floor"
+    t.string   "addr_unit"
+    t.string   "addr_block"
+    t.string   "addr_street"
+    t.string   "addr_building"
+    t.string   "city"
+    t.string   "state"
+    t.string   "zip"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "stores", force: true do |t|
     t.string   "store_name"
     t.text     "store_description"
     t.string   "email_address"
@@ -90,6 +109,15 @@ ActiveRecord::Schema.define(version: 20140420165735) do
     t.string   "zip"
     t.integer  "currency"
     t.decimal  "tax_rate",          precision: 8, scale: 2
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.integer  "store_branch_id"
+  end
+
+  create_table "user_employments", force: true do |t|
+    t.integer  "user_id"
+    t.integer  "store_id"
+    t.integer  "store_branch_id"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
@@ -114,6 +142,7 @@ ActiveRecord::Schema.define(version: 20140420165735) do
     t.boolean  "can_remove_sales",         default: false
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.integer  "roles_mask"
   end
 
   add_index "users", ["email"], name: "index_users_on_email", unique: true

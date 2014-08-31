@@ -1,0 +1,34 @@
+<div class="panel panel-default">
+	<div class="table-responsive">
+		<table class="table table-striped table-bordered table-hover">
+			<thead>
+				<tr>
+					<th>Store Name</th>
+					<th>Branch Name</th>
+					<th>Branch Description</th>
+					<th>Address</th>
+					<th></th>
+				</tr>
+			</thead>
+
+			<tbody>
+				<% @store_branches.each do |store_branch| %>
+				<tr>
+					<td><%= store_branch.store.store_name%></td>
+					<td><%= store_branch.branch_name%></td>
+					<td><%= store_branch.branch_description%></td>
+					<td><%= store_branch.addr_building%></td>
+					<td> <%= link_to 'Show', edit_store_branch_path(store_branch) %> | <%= link_to 'Remove', store_branch, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+				</tr>
+				<% end %>
+			</tbody>
+		</table>
+		<div class="panel-body">
+			<%= will_paginate @store_branches, renderer: BootstrapPagination::Rails %>
+		</div>
+	</div>
+</div>
+
+<div class="col-sm-12">
+	<%= link_to 'New Store branch', new_store_branch_path, :class => "btn btn-success btn-lg active" %>
+</div>
