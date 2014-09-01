@@ -1,12 +1,15 @@
 class StoresController < ApplicationController
 
+  load_and_authorize_resource
+
   before_action :set_store, only: [:show, :edit, :update, :destroy]
   def index
+
+    authorize! :index, Store
+
     if current_user.is?(:superadmin)
       @stores = Store.all.paginate(:page => params[:page], :per_page => 20, :order => 'id DESC')
     end
-    
-    authorize! :read, Store
 
   end
 
@@ -42,12 +45,19 @@ class StoresController < ApplicationController
 
   def update
 
-    authorize! :manage, @store
+    authorize! :update, @store
 
     respond_to do |format|
       if @store.update(store_params)
-        format.html { redirect_to '/stores', notice: 'Configurations have been successfully updated.' }
-        format.json { head :no_content }
+
+        if(current_user.is? :superadmin)
+          format.html { redirect_to '/stores', notice: 'Store has been successfully updated.' }
+          format.json { head :no_content }
+        else
+          format.html { redirect_to edit_store_path(@store), notice: 'Store has been successfully updated.' }
+          format.json { head :no_content }
+        end
+
       else
         format.html { render controller: 'stores' }
         format.json { render json: @store.errors, status: :unprocessable_entity }

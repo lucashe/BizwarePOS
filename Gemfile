@@ -34,4 +34,5 @@ group :test do
 end  
 
 gem 'sqlite3'
+gem 'simple_form'
 

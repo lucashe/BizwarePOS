@@ -1,4 +1,4 @@
-<%= form_for(@store_branch) do |f| %>
+<%= simple_form_for(@store_branch) do |f| %>
 <%= render :partial => 'template/form_errors', :object => @store_branch %>
 
 <div class="panel panel-default">
@@ -8,7 +8,12 @@
 			<div class="col-sm-6">
 				<div class="form-group">
 					<label>Store</label>
+					<%if current_user.is? :superadmin%>
 					<%= f.collection_select :store_id, Store.all, :id, :store_name, {prompt: "Select a store"}, {class: "form-control"}  %>
+					<%else%>
+					<%= @current_store.store_name%>
+					<%= f.hidden_field :store_id, :value => @current_store_id%>
+					<%end%>
 				</div>
 			</div>
 		</div>
@@ -102,7 +107,23 @@
 				</div>
 			</div>
 		</div>
+	</div>
+</div>
 
+<div class="panel panel-default">
+	<div class="panel-heading">
+		User Access
+	</div>
+	<div class="panel-body">
+		<div class="col-sm-12">
+			<%= f.association :users,
+			label: "",
+			collection: @current_store.users,
+			label_method: :username,
+			value_method: :id,
+			as: :check_boxes
+			%>
+		</div>
 	</div>
 </div>
 

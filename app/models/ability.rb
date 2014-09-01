@@ -9,7 +9,8 @@ class Ability
     end
 
     if user.is? :storeadmin
-      can [:index,:edit], Store
+      can :edit, Store
+      can :update, Store
       can :manage, StoreBranch
       can :manage, User
     end

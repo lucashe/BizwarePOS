@@ -9,7 +9,7 @@ class StoreBranchesController < ApplicationController
       @store_branches = @current_store.store_branches.paginate(:page => params[:page], :per_page => 20, :order => 'id DESC')
     end
 
-    authorize! :read, StoreBranch
+    authorize! :index, StoreBranch
 
   end
 
@@ -30,6 +30,7 @@ class StoreBranchesController < ApplicationController
   # POST /store_branches
   # POST /store_branches.json
   def create
+
     @store_branch = StoreBranch.new(store_branch_params)
 
     respond_to do |format|
@@ -51,8 +52,8 @@ class StoreBranchesController < ApplicationController
 
     respond_to do |format|
       if @store_branch.update(store_branch_params)
-        format.html { redirect_to @store_branch, notice: 'Store branch was successfully updated.' }
-        format.json { head :no_content }
+        format.html { redirect_to store_branches_path, notice: 'Store branch was successfully updated.' }
+        format.json { head :no_content}
       else
         format.html { render action: 'edit' }
         format.json { render json: @store_branch.errors, status: :unprocessable_entity }
@@ -79,7 +80,7 @@ class StoreBranchesController < ApplicationController
 
   # Never trust parameters from the scary internet, only allow the white list through.
   def store_branch_params
-    params[:store_branch].permit(:store_id,:branch_name,:branch_description,:email_address,:phone_number,:website_url,:addr_floor,:addr_unit,:addr_block,:addr_street,:addr_building,:city,:state,:zip)
+    params[:store_branch].permit(:store_id,:branch_name,:branch_description,:email_address,:phone_number,:website_url,:addr_floor,:addr_unit,:addr_block,:addr_street,:addr_building,:city,:state,:zip, user_ids: [])
   end
 
 end

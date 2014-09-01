@@ -8,7 +8,7 @@ class User < ActiveRecord::Base
 
   has_many :user_employments
   has_many :store_branches, through: :user_employments
-  has_many :stores, through: :user_employments
+  has_many :stores, through: :store_branches, :uniq => true
 
   ROLES = %w[superadmin storeadmin branchadmin staff]
   def roles=(roles)

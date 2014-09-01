@@ -2,8 +2,8 @@
 	<div class="row hidden-print">
 		<div class="col-sm-8 left">
 			<strong><%= Date.today.to_s(:long) %></strong> -
-			<%= @current_store.store_name.blank? ? "PushVendor Point of Sale" : @current_store.store_name %>
-			<%= @current_branch.branch_name.blank? ? "PushVendor Point of Sale" : @current_branch.branch_name %>
+			<%= @current_store.nil?||@current_store.store_name.blank? ? "All stores" : @current_store.store_name %> |
+			<%= @current_store.nil?||@current_branch.branch_name.blank? ? "All branches" : @current_branch.branch_name %>
 		</div>
 		<div class="col-sm-4 right">
 			<%= params[:controller] %> <%= params[:action] == 'index' ? '' : "/ #{params[:action]}" %>
@@ -19,13 +19,15 @@
 		<div class="col-sm-8 left">
 			<strong><%= Date.today.to_s(:long) %></strong>
 			<br />
-			<%= @current_store.store_name.blank? ? "PushVendor Point of Sale" : @current_store.store_name %></br />
+			<% if not @current_store.nil?%>
+			<%= @current_store.store_name.blank? ? "Unknown Store" : @current_store.store_name %></br />
 			<%= @current_store.phone_number.blank? ? "-" : @current_store.phone_number %></br />
 			<%= @current_store.email_address.blank? ? "-" : @current_store.email_address %></br />
 			<%= @current_store.address.blank? ? "-" : @current_store.address %></br />
 			<%= @current_store.city.blank? ? "-" : @current_store.city %></br />
 			<%= @current_store.state.blank? ? "-" : @current_store.state %></br />
 			<%= @current_store.zip.blank? ? "-" : @current_store.zip %></br />
+			<%end%>
 		</div>
 		<div class="col-sm-4 right"></div>
 	</div>

@@ -17,10 +17,11 @@ class ApplicationController < ActionController::Base
   def set_current_store
 
     return if not user_signed_in?
+    return if current_user.is? :superadmin
 
     @current_store_id = session[:current_store_id]
 
-    if @current_store_id.nil? 
+    if @current_store_id.nil?
       @current_store_id = current_user.stores.first.id
       session[:current_store_id] = @current_store_id
     end
@@ -32,6 +33,7 @@ class ApplicationController < ActionController::Base
   def set_current_branch
 
     return if not user_signed_in?
+    return if current_user.is? :superadmin
 
     @current_branch_id = session[:current_branch_id]
 

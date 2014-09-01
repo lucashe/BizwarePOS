@@ -39,7 +39,10 @@
 							<%if current_user.is? :superadmin%>
 							<a href="/stores"><span class="glyphicon glyphicon-adjust"></span> Stores</a>
 							<%else%>
-							<a href="<%edit_store_path(@current_store)%>"><span class="glyphicon glyphicon-adjust"></span> Store</a>
+							<%= link_to edit_store_path(@current_store) do %>
+							<span class="glyphicon glyphicon-adjust"></span>
+							Store
+							<%end%>
 							<%end%>
 						</li>
 						<li>

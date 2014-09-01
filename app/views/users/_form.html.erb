@@ -1,4 +1,4 @@
-<%= fields_for @user do |f|%>
+<%= simple_form_for  @user do |f|%>
 <%= render :partial => 'template/form_errors', :object => @user %>
 
 <div class="panel panel-default">
@@ -37,6 +37,40 @@
 	</div>
 </div>
 
+<div class="panel panel-default">
+	<div class="panel-heading">
+		Branch Access
+	</div>
+	<div class="panel-body">
+
+		<div class="col-sm-12">
+
+			<%if current_user.is? :superadmin%>
+
+			<%= f.association :store_branches,
+			label: "",
+			collection: @user.stores.first.store_branches,
+			label_method: :branch_name,
+			value_method: :id,
+			as: :check_boxes
+			%>
+
+			<%else%>
+
+			<%= f.association :store_branches,
+			label: "",
+			collection: @current_store.store_branches,
+			label_method: :branch_name,
+			value_method: :id,
+			as: :check_boxes
+			%>
+
+			<%end%>
+
+		</div>
+	</div>
+</div>
+
 <%if current_user.is?(:superadmin)%>
 <div class="panel panel-default">
 	<div class="panel-heading">
@@ -59,7 +93,7 @@
 </div>
 <%end%>
 
-<% unless @user.id.blank?%>
+<%if current_user.is?(:superadmin)%>
 <div class="panel panel-default">
 	<div class="panel-heading">
 		Permissions

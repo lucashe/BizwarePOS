@@ -18,7 +18,7 @@
 					<td><%= store_branch.branch_name%></td>
 					<td><%= store_branch.branch_description%></td>
 					<td><%= store_branch.addr_building%></td>
-					<td> <%= link_to 'Show', edit_store_branch_path(store_branch) %> | <%= link_to 'Remove', store_branch, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+					<td> <%= link_to 'Edit', edit_store_branch_path(store_branch) %> | <%= link_to 'Remove', store_branch, method: :delete, data: { confirm: 'Are you sure?' } %></td>
 				</tr>
 				<% end %>
 			</tbody>
