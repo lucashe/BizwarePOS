@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140831160836) do
+ActiveRecord::Schema.define(version: 20140902163545) do
 
   create_table "customers", force: true do |t|
     t.string   "first_name"
@@ -25,6 +25,7 @@ ActiveRecord::Schema.define(version: 20140831160836) do
     t.boolean  "published",     default: true
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.integer  "store_id"
   end
 
   create_table "item_categories", force: true do |t|
@@ -46,6 +47,8 @@ ActiveRecord::Schema.define(version: 20140831160836) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.integer  "item_category_id"
+    t.text     "image"
+    t.integer  "store_id"
   end
 
   create_table "line_items", force: true do |t|
@@ -74,6 +77,14 @@ ActiveRecord::Schema.define(version: 20140831160836) do
     t.decimal  "tax",              precision: 8, scale: 2
     t.integer  "customer_id"
     t.text     "comments"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.integer  "store_branch_id"
+  end
+
+  create_table "store_branch_items", force: true do |t|
+    t.integer  "store_branch_id"
+    t.integer  "item_id"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
@@ -116,7 +127,6 @@ ActiveRecord::Schema.define(version: 20140831160836) do
 
   create_table "user_employments", force: true do |t|
     t.integer  "user_id"
-    t.integer  "store_id"
     t.integer  "store_branch_id"
     t.datetime "created_at"
     t.datetime "updated_at"
@@ -143,6 +153,7 @@ ActiveRecord::Schema.define(version: 20140831160836) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.integer  "roles_mask"
+    t.integer  "store_id"
   end
 
   add_index "users", ["email"], name: "index_users_on_email", unique: true

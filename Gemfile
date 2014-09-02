@@ -35,4 +35,7 @@ end
 
 gem 'sqlite3'
 gem 'simple_form'
+gem 'carrierwave'
+gem "fog", "~> 1.3.1"
+gem 'mini_magick' 
 

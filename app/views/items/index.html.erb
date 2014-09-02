@@ -22,7 +22,7 @@
 					<td><%= item.stock_amount %></td>
 					<td><%= item.amount_sold %></td>
 					<td><%= number_to_currency item.price %></td>
-					<td><%= link_to 'Show', edit_item_path(item) %> | <%= link_to 'Destroy', item, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+					<td><%= link_to 'Edit', edit_item_path(item) %> | <%= link_to 'Remove', item, method: :delete, data: { confirm: 'Are you sure?' } %></td>
 				</tr>
 				<% end %>
 			</tbody>

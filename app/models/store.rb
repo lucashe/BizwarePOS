@@ -1,8 +1,9 @@
 class Store < ActiveRecord::Base
   has_many :store_branches
-  has_many :users, :through => :store_branches, :uniq => true
+  has_many :users
+  has_many :customers
+  has_many :items
 
-#has_many :user_employments
-#has_many :users, through: :user_employments, :uniq => true 
+  has_many :sales, :through => :store_branches
 
 end
