@@ -10,19 +10,14 @@ class User < ActiveRecord::Base
   has_many :store_branches, through: :user_employments
   belongs_to :store
 
-  ROLES = %w[superadmin storeadmin branchadmin staff]
-  def roles=(roles)
-    self.roles_mask = (roles & ROLES).map { |r| 2**ROLES.index(r) }.inject(0, :+)
+  ROLES = %w[staff branchadmin storeadmin superadmin]
+  ROLE_NAMES = %w[Staff Branch_Mgr Store_Mgr superadmin]
+  def is?(base_role)
+    ROLES.index(base_role.to_s) <= ROLES.index(role)
   end
 
-  def roles
-    ROLES.reject do |r|
-    ((roles_mask.to_i || 0) & 2**ROLES.index(r)).zero?
-    end
-  end
-
-  def is?(role)
-    roles.include?(role.to_s)
+  def role_name
+    ROLE_NAMES[ROLES.index(role)]
   end
 
 end

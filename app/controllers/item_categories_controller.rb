@@ -1,6 +1,5 @@
 class ItemCategoriesController < ApplicationController
   before_action :set_item_category, only: [:show, :edit, :update, :destroy]
-
   # GET /item_categories
   # GET /item_categories.json
   def index
@@ -62,14 +61,15 @@ class ItemCategoriesController < ApplicationController
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
-    def set_item_category
-      @item_category = ItemCategory.find(params[:id])
-    end
 
-    # Never trust parameters from the scary internet, only allow the white list through.
-    def item_category_params
-      params.require(:item_category).permit(:name, :description)
-    end
+  # Use callbacks to share common setup or constraints between actions.
+  def set_item_category
+    @item_category = ItemCategory.find(params[:id])
+  end
+
+  # Never trust parameters from the scary internet, only allow the white list through.
+  def item_category_params
+    params.require(:item_category).permit(:name, :description, :store_id)
+  end
 
 end

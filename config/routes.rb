@@ -59,6 +59,9 @@ PushvendorPos::Application.routes.draw do
   resources :users do
     collection do
       post 'new_user'
+      get 'new_store_admin'
+      get 'new_branch_admin'
+      get 'new_staff'
     end
   end
   # The priority is based upon order of creation: first created -> highest priority.

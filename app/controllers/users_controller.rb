@@ -22,6 +22,21 @@ class UsersController < ApplicationController
     @user = User.new
   end
 
+  def new_store_admin
+    @user = User.new
+    @user.role = :storeadmin
+  end
+
+  def new_branch_admin
+    @user = User.new
+    @user.role = :branchadmin
+  end
+
+  def new_staff
+    @user = User.new
+    @user.role = :staff
+  end
+
   # GET /users/1/edit
   def edit
   end
@@ -29,22 +44,10 @@ class UsersController < ApplicationController
   # POST /users
   # POST /users.json
   def create
-    @user = User.new(user_params)
-
-    respond_to do |format|
-      if @user.save
-
-        format.html { redirect_to @user, notice: 'user was successfully created.' }
-        format.json { render action: 'show', status: :created, location: @user }
-      else
-        format.html { render action: 'new' }
-        format.json { render json: @user.errors, status: :unprocessable_entity }
-      end
-    end
   end
 
   def new_user
-    @user = User.new(:email => params[:user][:email], :username => params[:user][:username], :password => params[:user][:password], :password_confirmation => params[:user][:password_confirmation])
+    @user = @current_store.users.build(user_params)
 
     respond_to do |format|
       if @user.save
@@ -60,7 +63,6 @@ class UsersController < ApplicationController
   # PATCH/PUT /users/1
   # PATCH/PUT /users/1.json
   def update
-
     if user_params[:password].blank?
       user_params.delete("password")
       user_params.delete("password_confirmation")
@@ -84,14 +86,10 @@ class UsersController < ApplicationController
   # DELETE /users/1
   # DELETE /users/1.json
   def destroy
-    if @user.id == 1
-      redirect_to users_url, notice: "You can't delete the main administrator!"
-    else
-      @user.destroy
-      respond_to do |format|
-        format.html { redirect_to users_url }
-        format.json { head :no_content }
-      end
+    @user.destroy
+    respond_to do |format|
+      format.html { redirect_to users_url }
+      format.json { head :no_content }
     end
   end
 
@@ -104,6 +102,6 @@ class UsersController < ApplicationController
 
   # Never trust parameters from the scary internet, only allow the white list through.
   def user_params
-    params.require(:user).permit(:email, :username, :password, :password_confirmation, :remember_me, :can_update_users, :can_update_items, :can_update_configuration, :can_view_reports, :can_update_sale_discount, :can_remove_sales, roles: [], store_branch_ids: [] )
+    params.require(:user).permit(:email, :username, :password, :password_confirmation, :remember_me, :can_update_users, :can_update_items, :can_update_configuration, :can_view_reports, :can_update_sale_discount, :can_remove_sales, :role, store_branch_ids: [] )
   end
 end

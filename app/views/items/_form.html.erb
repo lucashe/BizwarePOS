@@ -1,8 +1,24 @@
-<%= form_for @item, :html => {:multipart => true} do |f| %>
+<%= simple_form_for @item, :html => {:multipart => true} do |f| %>
 <%= render :partial => 'template/form_errors', :object => @item %>
 
 <div class="panel panel-default">
+
 	<div class="panel-body">
+
+		<div class="row">
+			<div class="col-sm-6">
+				<div class="form-group">
+					<label>Branches</label>
+					<%= f.association :store_branches,
+					label: "",
+					collection: @current_store.store_branches,
+					label_method: :branch_name,
+					value_method: :id,
+					as: :check_boxes
+					%>
+				</div>
+			</div>
+		</div>
 
 		<div class="row">
 			<div class="col-sm-6">

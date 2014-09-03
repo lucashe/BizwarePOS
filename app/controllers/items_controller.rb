@@ -25,7 +25,7 @@ class ItemsController < ApplicationController
   # POST /items
   # POST /items.json
   def create
-    @item = Item.new(item_params)
+    @item = @current_store.items.build(item_params)
     @item.published = true
 
     respond_to do |format|
@@ -81,6 +81,6 @@ class ItemsController < ApplicationController
 
   # Never trust parameters from the scary internet, only allow the white list through.
   def item_params
-    params.require(:item).permit(:image, :image_cache, :sku, :name, :description, :price, :stock_amount, :cost_price, :item_category_id, :published)
+    params.require(:item).permit(:image, :image_cache, :sku, :name, :description, :price, :stock_amount, :cost_price, :item_category_id, :published, store_branch_ids: [])
   end
 end

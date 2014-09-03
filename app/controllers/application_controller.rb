@@ -22,7 +22,7 @@ class ApplicationController < ActionController::Base
     @current_store_id = session[:current_store_id]
 
     if @current_store_id.nil?
-      @current_store_id = current_user.stores.first.id
+      @current_store_id = current_user.store.id
       session[:current_store_id] = @current_store_id
     end
 
