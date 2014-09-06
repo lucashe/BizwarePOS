@@ -4,19 +4,19 @@ class Ability
 
     if user.is? :superadmin
       can :manage, Store
-      can :manage, StoreBranch
+      can :manage, Branch
       can :manage, User
     end
 
     if user.is? :storeadmin
       can :edit, Store
       can :update, Store
-      can :manage, StoreBranch
+      can :manage, Branch
       can :manage, User
     end
-
+    
     if user.can_update_users == true
-      can :manage, User
+      #can :manage, User
     end
 
     if user.can_view_reports == true

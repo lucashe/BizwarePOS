@@ -1,6 +1,7 @@
 class Sale < ActiveRecord::Base
   belongs_to :customer
-  belongs_to :store_branch
+  belongs_to :user
+  belongs_to :branch
 
   has_many :line_items, dependent: :destroy
   has_many :items, :through => :line_items

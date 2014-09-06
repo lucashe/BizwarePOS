@@ -21,7 +21,7 @@ PushvendorPos::Application.routes.draw do
 
   resources :stores
 
-  resources :store_branches
+  resources :branches
 
   resources :customers
 
@@ -52,6 +52,7 @@ PushvendorPos::Application.routes.draw do
   resources :dashboard do
     collection do
       get 'create_sale_with_product'
+      get 'switch_branch'
     end
   end
 

@@ -11,7 +11,35 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140903155809) do
+ActiveRecord::Schema.define(version: 20140905121537) do
+
+  create_table "branch_items", force: true do |t|
+    t.integer  "branch_id"
+    t.integer  "item_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.integer  "stock_amount"
+    t.integer  "amount_sold",  default: 0
+  end
+
+  create_table "branches", force: true do |t|
+    t.integer  "store_id"
+    t.string   "branch_name"
+    t.text     "branch_description"
+    t.string   "email_address"
+    t.string   "phone_number"
+    t.string   "website_url"
+    t.string   "addr_floor"
+    t.string   "addr_unit"
+    t.string   "addr_block"
+    t.string   "addr_street"
+    t.string   "addr_building"
+    t.string   "city"
+    t.string   "state"
+    t.string   "zip"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
 
   create_table "customers", force: true do |t|
     t.string   "first_name"
@@ -33,6 +61,7 @@ ActiveRecord::Schema.define(version: 20140903155809) do
     t.text     "description"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.integer  "store_id"
   end
 
   create_table "items", force: true do |t|
@@ -40,8 +69,6 @@ ActiveRecord::Schema.define(version: 20140903155809) do
     t.string   "name"
     t.text     "description"
     t.decimal  "price",            precision: 8, scale: 2
-    t.integer  "stock_amount"
-    t.integer  "amount_sold",                              default: 0
     t.decimal  "cost_price",       precision: 8, scale: 2
     t.boolean  "published",                                default: true
     t.datetime "created_at"
@@ -79,33 +106,8 @@ ActiveRecord::Schema.define(version: 20140903155809) do
     t.text     "comments"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.integer  "store_branch_id"
-  end
-
-  create_table "store_branch_items", force: true do |t|
-    t.integer  "store_branch_id"
-    t.integer  "item_id"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-  end
-
-  create_table "store_branches", force: true do |t|
-    t.integer  "store_id"
-    t.string   "branch_name"
-    t.text     "branch_description"
-    t.string   "email_address"
-    t.string   "phone_number"
-    t.string   "website_url"
-    t.string   "addr_floor"
-    t.string   "addr_unit"
-    t.string   "addr_block"
-    t.string   "addr_street"
-    t.string   "addr_building"
-    t.string   "city"
-    t.string   "state"
-    t.string   "zip"
-    t.datetime "created_at"
-    t.datetime "updated_at"
+    t.integer  "branch_id"
+    t.integer  "user_id"
   end
 
   create_table "stores", force: true do |t|
@@ -122,12 +124,11 @@ ActiveRecord::Schema.define(version: 20140903155809) do
     t.decimal  "tax_rate",          precision: 8, scale: 2
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.integer  "store_branch_id"
   end
 
   create_table "user_employments", force: true do |t|
     t.integer  "user_id"
-    t.integer  "store_branch_id"
+    t.integer  "branch_id"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
@@ -152,7 +153,6 @@ ActiveRecord::Schema.define(version: 20140903155809) do
     t.boolean  "can_remove_sales",         default: false
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.integer  "roles_mask"
     t.integer  "store_id"
     t.string   "role"
   end

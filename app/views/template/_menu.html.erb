@@ -46,12 +46,22 @@
 							<%end%>
 						</li>
 						<li>
-							<a href="/store_branches"><span class="glyphicon glyphicon-adjust"></span> Branches</a>
+							<a href="/branches"><span class="glyphicon glyphicon-adjust"></span> Branches</a>
 						</li>
 					</ul>
 				</li>
 			</ul>
 			<ul class="nav navbar-nav navbar-right">
+				<li class="dropdown">
+					<a lass="dropdown-toggle" data-toggle="dropdown" href="#"><%= 'Branch : '+@current_branch.branch_name%> <span class="caret"></span> </a>
+					<ul class="dropdown-menu">
+						<li>
+							<%for b in current_user.branches%>
+							<%= link_to b.branch_name, controller: "dashboard", action:"switch_branch", switch_branch_to: b.id %>
+							<%end%>
+						</li>
+					</ul>
+				</li>
 				<li>
 					<%= link_to 'New Sale', new_sale_path, :class => "btn btn-success btn-lg active" %>
 				</li>

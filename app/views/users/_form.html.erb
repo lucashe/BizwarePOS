@@ -47,9 +47,9 @@
 
 			<%if current_user.is? :superadmin%>
 
-			<%= f.association :store_branches,
+			<%= f.association :branches,
 			label: "",
-			collection: StoreBranch.all,
+			collection: ranch.all,
 			label_method: :branch_name,
 			value_method: :id,
 			as: :check_boxes
@@ -57,9 +57,9 @@
 
 			<%else%>
 
-			<%= f.association :store_branches,
+			<%= f.association :branches,
 			label: "",
-			collection: @current_store.store_branches,
+			collection: @current_store.branches,
 			label_method: :branch_name,
 			value_method: :id,
 			as: :check_boxes
@@ -119,7 +119,7 @@
 		<%= f.submit 'Create BranchMgr', :class => "btn btn-success btn-lg" %>
 		<%elsif  action_name=='new_store_admin'%>
 		<%= f.submit 'Create StoreMgr', :class => "btn btn-success btn-lg" %>
-		<%elsif  action_name=='edit' ||  action_name=='update' %>
+		<%elsif  action_name=='edit' ||  action_name=='update' || action_name='show'%>
 		<%= f.submit 'Update', :class => "btn btn-success btn-lg" %>
 		<%end%>
 	</div>

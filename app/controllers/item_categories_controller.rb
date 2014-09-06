@@ -23,7 +23,7 @@ class ItemCategoriesController < ApplicationController
   # POST /item_categories
   # POST /item_categories.json
   def create
-    @item_category = ItemCategory.new(item_category_params)
+    @item_category = @current_store.item_categories.build(item_category_params)
 
     respond_to do |format|
       if @item_category.save

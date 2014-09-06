@@ -7,7 +7,8 @@ class User < ActiveRecord::Base
   validates :username, :presence => true, :uniqueness => true
 
   has_many :user_employments
-  has_many :store_branches, through: :user_employments
+  has_many :branches, through: :user_employments
+  has_many :sales
   belongs_to :store
 
   ROLES = %w[staff branchadmin storeadmin superadmin]

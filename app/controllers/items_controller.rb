@@ -3,33 +3,37 @@ class ItemsController < ApplicationController
   # GET /items
   # GET /items.json
   def index
-    @items = Item.paginate(:page => params[:page], :per_page => 20).where(:published => true)
+    @items = @current_store.items.paginate(:page => params[:page], :per_page => 20).where(:published => true)
   end
 
   # GET /items/1
   # GET /items/1.json
   def show
-    set_item
   end
 
   # GET /items/new
   def new
     @item = Item.new
+    for b in @current_store.branches
+      @item.branch_items.build(:branch_id => b.id,:stock_amount => 0)
+    end
+
   end
 
   # GET /items/1/edit
   def edit
-    set_item
+
   end
 
   # POST /items
   # POST /items.json
   def create
+
     @item = @current_store.items.build(item_params)
     @item.published = true
 
     respond_to do |format|
-      if @item.save
+      if @item.save        
         format.html { redirect_to @item, notice: 'Item was successfully created.' }
         format.json { render action: 'show', status: :created, location: @item }
       else
@@ -81,6 +85,6 @@ class ItemsController < ApplicationController
 
   # Never trust parameters from the scary internet, only allow the white list through.
   def item_params
-    params.require(:item).permit(:image, :image_cache, :sku, :name, :description, :price, :stock_amount, :cost_price, :item_category_id, :published, store_branch_ids: [])
+    params.require(:item).permit(:image, :image_cache, :sku, :name, :description, :price, :cost_price, :item_category_id, :published, branch_items_attributes: [:id,:branch_id,:stock_amount])
   end
 end

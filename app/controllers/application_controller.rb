@@ -38,11 +38,11 @@ class ApplicationController < ActionController::Base
     @current_branch_id = session[:current_branch_id]
 
     if @current_branch_id.nil?
-      @current_branch_id = current_user.store_branches.first.id
+      @current_branch_id = current_user.branches.first.id
       session[:current_branch_id] = @current_branch_id
     end
 
-    @current_branch = StoreBranch.find(@current_branch_id)
+    @current_branch = Branch.find(@current_branch_id)
 
   end
 

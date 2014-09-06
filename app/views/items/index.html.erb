@@ -15,12 +15,12 @@
 
 			<tbody>
 				<% @items.each do |item| %>
-				<tr class="<%= item.stock_amount > 0 ? '' : 'danger' %>">
+				<tr class="<%= get_store_stock_amount(@current_store, item) > 0 ? '' : 'danger' %>">
 					<td><%= item.sku %></td>
 					<td><%= item.name %></td>
 					<td><%= item.item_category.blank? ? '-' : item.item_category.name %></td>
-					<td><%= item.stock_amount %></td>
-					<td><%= item.amount_sold %></td>
+					<td><%= get_store_stock_amount(@current_store, item) %></td>
+					<td><%= get_store_amount_sold(@current_store, item) %></td>
 					<td><%= number_to_currency item.price %></td>
 					<td><%= link_to 'Edit', edit_item_path(item) %> | <%= link_to 'Remove', item, method: :delete, data: { confirm: 'Are you sure?' } %></td>
 				</tr>
