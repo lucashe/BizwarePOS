@@ -1,34 +1,40 @@
 <div class="panel panel-default">
-  <div class="panel-heading">#<span class="sale_id"><%= @sale.id %>, Created: <%= @sale.created_at.strftime("%m/%d/%y %I:%M:%S %p")  %>, Last Edited: <%= @sale.updated_at.strftime("%m/%d/%y %I:%M:%S %p")  %></span></div> 
-    <div class="panel-body">
-      
-      <!-- Nav tabs -->
-      <ul class="nav nav-tabs hidden-print">
-        <li class="active"><a href="#sale" data-toggle="tab">Sale</a></li>
-        <li><a href="#customer" data-toggle="tab">Customer</a></li>
-        <li><a href="#comments" data-toggle="tab">Comments</a></li>
-      </ul>
+	<span class="sale_id hidden_value"><%= @sale.id %></span>
+	<div class="panel-body">
 
-      <!-- Tab panes -->
-      <div class="tab-content">
-        <div class="tab-pane active" id="sale">
-          <%= render :partial => 'sales/shared/sale_tab' %>       
-        </div>
-        
-        <div class="tab-pane" id="customer">
-          <%= render :partial => 'sales/shared/customer_info', :object => @sale %>
+		<!-- Nav tabs -->
+		<ul class="nav nav-tabs hidden-print">
+			<li class="active">
+				<a href="#sale" data-toggle="tab">Sale</a>
+			</li>
+			<li>
+				<a href="#customer" data-toggle="tab">Customer</a>
+			</li>
+			<li>
+				<a href="#comments" data-toggle="tab">Comments</a>
+			</li>
+		</ul>
 
-          <div class="added_customer">
-            <%= render :partial => 'sales/shared/added_customer' %>
-          </div>
-        </div>
+		<!-- Tab panes -->
+		<div class="tab-content">
+			<div class="tab-pane active" id="sale">
+				<%= render :partial => 'sales/shared/sale_tab' %>
+			</div>
 
-        <div class="tab-pane" id="comments">
-          <%= render :partial => 'sales/shared/comments', :object => @sale %>
-        </div>
+			<div class="tab-pane" id="customer">
+				<%= render :partial => 'sales/shared/customer_info', :object => @sale %>
 
-        <%= render :partial => 'sales/shared/modals' %>
-      
-    </div>
-  </div>
+				<div class="added_customer">
+					<%= render :partial => 'sales/shared/added_customer' %>
+				</div>
+			</div>
+
+			<div class="tab-pane" id="comments">
+				<%= render :partial => 'sales/shared/comments', :object => @sale %>
+			</div>
+
+			<%= render :partial => 'sales/shared/modals' %>
+
+		</div>
+	</div>
 </div>

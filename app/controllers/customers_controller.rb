@@ -3,7 +3,11 @@ class CustomersController < ApplicationController
   # GET /customers
   # GET /customers.json
   def index
-    @customers = Customer.where(:store_id => @current_store_id).paginate(:page => params[:page], :per_page => 20).where(:published => true)
+    if current_user.is? :superadmin
+      @customers = Customer.paginate(:page => params[:page], :per_page => 20).where(:published => true)
+    else
+      @customers = @current_store.customers.paginate(:page => params[:page], :per_page => 20).where(:published => true)
+    end
   end
 
   # GET /customers/1
@@ -13,7 +17,7 @@ class CustomersController < ApplicationController
 
   # GET /customers/new
   def new
-    @customer = Customer.new
+    @customer = @current_store.customers.new
   end
 
   # GET /customers/1/edit

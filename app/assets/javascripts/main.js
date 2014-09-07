@@ -21,7 +21,7 @@ $(document).ready(function(){
 		$.ajax({
       type: "POST",
       url: '/sales/override_price', //sumbits it to the given url of the form
-      data: {override_price: { price: $(this).val(), line_item_sku: $(this).parent().parent().find('.line_item_sku').val(), sale_id: $(document).find('.sale_id').html() }},
+      data: {override_price: { price: $(this).val(), line_item_id: $(this).parent().parent().find('.line_item_id').val(), sale_id: $(document).find('.sale_id').html() }},
       dataType: "script",
       success: function() {
       	console.log('price updated');

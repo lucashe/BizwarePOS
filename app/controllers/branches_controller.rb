@@ -21,6 +21,10 @@ class BranchesController < ApplicationController
   # GET /branches/new
   def new
     @branch = Branch.new
+    
+    if not params[:preset_store_id].nil?
+      @branch.store_id = params[:preset_store_id]
+    end
   end
 
   # GET /branches/1/edit

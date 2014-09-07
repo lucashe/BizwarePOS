@@ -1,7 +1,10 @@
-
-
 <% if user_signed_in? %>
+<% if current_user.is? :superadmin%>
+	<%= render :partial => 'logged_in_superadmin' %>
+<%else%>
 	<%= render :partial => 'logged_in' %>
+<%end%>
+
 <% else %>
-	<%= render :partial => 'guest' %>
+<%= render :partial => 'guest' %>
 <% end %>

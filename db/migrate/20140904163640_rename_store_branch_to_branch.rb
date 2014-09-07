@@ -7,7 +7,7 @@ class RenameStoreBranchToBranch < ActiveRecord::Migration
     rename_column :sales, :store_branch_id, :branch_id
     rename_column :branch_items, :store_branch_id, :branch_id
 
-    add_column :customers, :id, :string
+    #add_column :customers, :id, :string
 
   end
 end

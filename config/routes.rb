@@ -63,6 +63,7 @@ PushvendorPos::Application.routes.draw do
       get 'new_store_admin'
       get 'new_branch_admin'
       get 'new_staff'
+      get 'update_store_select'
     end
   end
   # The priority is based upon order of creation: first created -> highest priority.

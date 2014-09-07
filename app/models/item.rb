@@ -14,6 +14,6 @@ class Item < ActiveRecord::Base
   validates :name, :presence => true, :uniqueness => true
   validates :price, :presence => true
 
-  default_scope :order => 'sku ASC'
+  default_scope :order => 'id ASC'
 
 end

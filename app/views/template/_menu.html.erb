@@ -52,6 +52,8 @@
 				</li>
 			</ul>
 			<ul class="nav navbar-nav navbar-right">
+				<%if not current_user.is? :superadmin%>
+
 				<li class="dropdown">
 					<a lass="dropdown-toggle" data-toggle="dropdown" href="#"><%= 'Branch : '+@current_branch.branch_name%> <span class="caret"></span> </a>
 					<ul class="dropdown-menu">
@@ -62,9 +64,12 @@
 						</li>
 					</ul>
 				</li>
+
 				<li>
 					<%= link_to 'New Sale', new_sale_path, :class => "btn btn-success btn-lg active" %>
 				</li>
+
+				<%end%>
 				<li>
 					<%= link_to(destroy_user_session_path, :method => :delete) do %>
 					<span class="glyphicon glyphicon-remove-circle"></span>

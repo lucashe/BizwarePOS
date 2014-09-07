@@ -34,9 +34,9 @@ class DashboardController < ApplicationController
 
   def get_tax_rate
     if @current_store.tax_rate.blank?
-    return 0.00
+      return 0.07
     else
-    return @current_store.tax_rate.to_f * 0.01
+      return @current_store.tax_rate.to_f * 0.01
     end
   end
 
@@ -44,15 +44,16 @@ class DashboardController < ApplicationController
 
   def prepare_data
 
-    if current_user.is? :storeadmin
-      @recent_sales = @current_store.sales.find(:all, :limit => 10, :order => 'id DESC')
-      @popular_items = @current_store.items.joins(:branch_items).select("item_id as id,name,sum(stock_amount) as stock_amount,sum(amount_sold) as amount_sold").group("name,item_id").find(:all, :limit => 10, :order => 'amount_sold DESC')
-    elsif current_user.is? :branchadmin
-      @recent_sales = @current_branch.sales.find(:all, :limit => 10, :order => 'id DESC')
-      @popular_items = @current_branch.items.joins(:branch_items).select("item_id as id,name,sum(stock_amount) as stock_amount,sum(amount_sold) as amount_sold").group("name,item_id").find(:all, :limit => 10, :order => 'amount_sold DESC')
-    elsif current_user.is? :staff
+    if current_user.is? :superadmin
+      elsif current_user.is? :storeadmin
+        @recent_sales = @current_store.sales.find(:all, :limit => 10, :order => 'id DESC')
+        @popular_items = @current_store.items.joins(:branch_items).select("item_id as id,name,sum(stock_amount) as stock_amount,sum(amount_sold) as amount_sold").group("name,item_id").find(:all, :limit => 10, :order => 'amount_sold DESC')
+      elsif current_user.is? :branchadmin
+        @recent_sales = @current_branch.sales.find(:all, :limit => 10, :order => 'id DESC')
+        @popular_items = @current_branch.items.joins(:branch_items).select("item_id as id,name,sum(stock_amount) as stock_amount,sum(amount_sold) as amount_sold").group("name,item_id").find(:all, :limit => 10, :order => 'amount_sold DESC')
+      elsif current_user.is? :staff
 
-    end
+      end
   end
 
 end

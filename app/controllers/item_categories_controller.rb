@@ -3,7 +3,7 @@ class ItemCategoriesController < ApplicationController
   # GET /item_categories
   # GET /item_categories.json
   def index
-    @item_categories = ItemCategory.paginate(:page => params[:page], :per_page => 20)
+    @item_categories = @current_store.item_categories.paginate(:page => params[:page], :per_page => 20)
   end
 
   # GET /item_categories/1

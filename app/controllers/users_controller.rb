@@ -3,7 +3,6 @@ class UsersController < ApplicationController
   # GET /users
   # GET /users.json
   def index
-
     if current_user.is?(:superadmin)
       @users = User.paginate(:page => params[:page], :per_page => 20)
     else
@@ -47,7 +46,11 @@ class UsersController < ApplicationController
   end
 
   def new_user
-    @user = @current_store.users.build(user_params)
+    if current_user.is? :superadmin
+      @user = User.new(user_params)
+    else
+      @user = @current_store.users.build(user_params)
+    end
 
     respond_to do |format|
       if @user.save
@@ -58,6 +61,13 @@ class UsersController < ApplicationController
         format.json { render json: @user.errors, status: :unprocessable_entity }
       end
     end
+  end
+
+  def update_store_select
+
+    @branches_select = Branch.where(:store_id => params[:store_select_id])
+    render :partial => "branch"
+
   end
 
   # PATCH/PUT /users/1
@@ -95,6 +105,10 @@ class UsersController < ApplicationController
 
   private
 
+  def ajax_refresh
+    return render(:file => 'users/ajax_reload_branches.js.erb')
+  end
+
   # Use callbacks to share common setup or constraints between actions.
   def set_user
     @user = User.find(params[:id])
@@ -102,6 +116,6 @@ class UsersController < ApplicationController
 
   # Never trust parameters from the scary internet, only allow the white list through.
   def user_params
-    params.require(:user).permit(:email, :username, :password, :password_confirmation, :remember_me, :can_update_users, :can_update_items, :can_update_configuration, :can_view_reports, :can_update_sale_discount, :can_remove_sales, :role, branch_ids: [] )
+    params.require(:user).permit(:store_id, :email, :username, :password, :password_confirmation, :remember_me, :can_update_users, :can_update_items, :can_update_configuration, :can_view_reports, :can_update_sale_discount, :can_remove_sales, :role, branch_ids: [] )
   end
 end

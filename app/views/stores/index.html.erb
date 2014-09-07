@@ -14,7 +14,9 @@
 				<tr>
 					<td><%= store.store_name%></td>
 					<td><%= store.store_description%></td>
-					<td> <%= link_to 'Edit', edit_store_path(store) %> | <%= link_to 'Remove', store, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+					<td> <%= link_to 'Edit', edit_store_path(store) %> |
+					<%= link_to 'Remove', store, method: :delete, data: { confirm: 'Are you sure?' } %> |
+					<%= link_to 'New Branch', new_branch_path(:preset_store_id => store.id) %> </td>
 				</tr>
 				<% end %>
 			</tbody>

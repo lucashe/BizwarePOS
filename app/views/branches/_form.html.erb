@@ -116,6 +116,10 @@
 	</div>
 	<div class="panel-body">
 		<div class="col-sm-12">
+			<%if current_user.is? :superadmin%>
+
+			<%else%>
+
 			<%= f.association :users,
 			label: "",
 			collection: @current_store.users,
@@ -123,6 +127,7 @@
 			value_method: :id,
 			as: :check_boxes
 			%>
+			<%end%>
 		</div>
 	</div>
 </div>

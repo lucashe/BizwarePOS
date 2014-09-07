@@ -1,3 +1,4 @@
+@import "bootstrap-sprockets";
 @import 'bootstrap';
 @import 'config';
 
@@ -40,20 +41,44 @@ body {
   }
 }
 
+
+.col-sm-3-min-padding{
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+.table-word-wrap {
+    table-layout: fixed;
+    word-wrap: break-word;
+}
+
 .item_search, .customer_search, .sale_comments {
   display:none !important;
 }
 
+.hidden_value {
+  display: none;
+}
+
 .item_search_wrapper {
-  padding:20px 0px;
+  padding:10px 0px;
   form {
-    margin-top:30px;
+    margin-top:10px;
   }
 }
 
 .add_to_current_sale {
-
   color:#428BCA;
+}
+
+.table_no_padding > tbody > tr > td{
+  padding: 2px;
+  vertical-align: middle;
+}
+
+.form-control_big_font {
+    font-size: 18px;
+    padding: 4px 4px;
 }
 
 

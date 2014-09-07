@@ -17,6 +17,6 @@ class CreateStoreConfigurations < ActiveRecord::Migration
       t.timestamps
     end
 
-    StoreConfiguration.create()
+    #StoreConfiguration.create()
   end
 end

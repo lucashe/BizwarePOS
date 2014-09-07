@@ -6,7 +6,6 @@ class StoresController < ApplicationController
   def index
 
     authorize! :index, Store
-
     if current_user.is?(:superadmin)
       @stores = Store.all.paginate(:page => params[:page], :per_page => 20, :order => 'id DESC')
     end

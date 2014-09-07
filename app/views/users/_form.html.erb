@@ -1,4 +1,4 @@
-<%= simple_form_for  @user do |f|%>
+<%= simple_form_for  @user, :remote=>true do |f|%>
 <%= render :partial => 'template/form_errors', :object => @user %>
 
 <div class="panel panel-default">
@@ -43,14 +43,19 @@
 	</div>
 	<div class="panel-body">
 
-		<div class="col-sm-12">
+		<div class="col-sm-6">
 
 			<%if current_user.is? :superadmin%>
 
+			<%= f.collection_select :store_id, Store.all, :id, :store_name, {prompt: "Select a store"}, {id: "storeDropDown", class: "form-control"}  %>
+
+			<!-- <div id ="branch_selection">
+			<%= render :partial => "branch" , :object => @user%>
+			</div> -->
 			<%= f.association :branches,
 			label: "",
-			collection: ranch.all,
-			label_method: :branch_name,
+			collection: Branch.all,
+			label_method: lambda { |b| "#{b.store.store_name} # #{b.branch_name}" },
 			value_method: :id,
 			as: :check_boxes
 			%>
@@ -64,7 +69,6 @@
 			value_method: :id,
 			as: :check_boxes
 			%>
-
 			<%end%>
 
 		</div>
