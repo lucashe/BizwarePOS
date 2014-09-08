@@ -18,7 +18,7 @@ class DashboardController < ApplicationController
   end
 
   def create_sale_with_product
-    @sale = Sale.create
+    @sale = @current_branch.sales.create(:user_id => current_user.id)
     item = Item.find(params[:item_id])
     LineItem.create(:item_id => params[:item_id].to_i, :quantity => params[:quantity].to_i, :price => item.price, :total_price => item.price * params[:quantity].to_i, :sale_id => @sale.id)
 
@@ -26,7 +26,8 @@ class DashboardController < ApplicationController
 
     @sale.tax = price * get_tax_rate
     @sale.amount = price
-    @sale.total_amount = price + (price * get_tax_rate)
+    #@sale.total_amount = price + (price * get_tax_rate)
+    @sale.total_amount = price 
     @sale.save
 
     redirect_to :controller => 'sales', :action => 'edit', :id => @sale.id
@@ -53,7 +54,7 @@ class DashboardController < ApplicationController
         @popular_items = @current_branch.items.joins(:branch_items).select("item_id as id,name,sum(stock_amount) as stock_amount,sum(amount_sold) as amount_sold").group("name,item_id").find(:all, :limit => 10, :order => 'amount_sold DESC')
       elsif current_user.is? :staff
 
-      end
+    end
   end
 
 end

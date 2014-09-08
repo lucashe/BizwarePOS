@@ -7,7 +7,16 @@ $(document).ready(function(){
 	$(document).on("change", '.item_category_search_input', function(){
 	  $('.item_search').click();
 	});
-
+	
+	$(document).on("click", '.item_category_select', function(){
+		$.ajax({
+      type: "GET",
+      url: '/sales/update_line_item_options', 
+      data: {search: { item_category: $(this).val(), sale_id: $(document).find('.sale_id').html() }},
+      dataType: "script"
+		});
+	});
+	
 	$(document).on("keypress", '.customer_search_input', function(){
 	  $('.customer_search').click();
 	});
