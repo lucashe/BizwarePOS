@@ -1,0 +1,13 @@
+zh-CN:
+  
+  menu:
+    customers: "会员"
+    sales: "销售记录"
+    items: "产品"
+    item_categories: "产品分类"
+    users: "店员"
+    reports: "报表"
+    store: "总店"
+    stores: "店家"
+    branches: "分店"
+    new_sale: "销售下单"

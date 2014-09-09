@@ -20,7 +20,7 @@ gem 'sass-rails', '>= 3.2'
 gem 'autoprefixer-rails'
 
 gem 'filterrific'
-
+gem "chartkick"
 
 group :doc do
 # bundle exec rake doc:rails generates the API under doc/api.

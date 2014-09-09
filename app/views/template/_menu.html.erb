@@ -7,22 +7,22 @@
 				<span class="icon-bar"></span>
 				<span class="icon-bar"></span>
 			</button>
-			<a class="navbar-brand" href="/"><span class="glyphicon glyphicon-home"></span></a>
+			<a class="navbar-brand" href="<%= root_path%>"><span class="glyphicon glyphicon-home"></span></a>
 		</div>
 		<div class="navbar-collapse collapse">
 			<ul class="nav navbar-nav">
 				<li>
-					<a href="/customers">Customers</a>
+					<a href="<%= customers_path%>"><%= t('menu.customers')%></a>
 				</li>
 				<li>
-					<a href="/sales">Sales</a>
+					<a href="<%= sales_path%>"><%= t('menu.sales')%></a>
 				</li>
 				<li class="dropdown">
-					<a lass="dropdown-toggle" data-toggle="dropdown" href="#">Items</a>
+					<a class="dropdown-toggle" data-toggle="dropdown" href="#"><%= t('menu.items')%><b class="caret"></b></a>
 					<ul class="dropdown-menu">
 						<li>
-							<a href="/items">Items</a>
-							<a href="/item_categories">Item Categories</a>
+							<a href="<%= items_path%>"><%= t('menu.items')%></a>
+							<a href="<%= item_categories_path%>"><%= t('menu.item_categories')%></a>
 						</li>
 					</ul>
 				</li>
@@ -30,29 +30,43 @@
 					<a href="#" class="dropdown-toggle" data-toggle="dropdown"><span class="glyphicon glyphicon-cog"></span> <b class="caret"></b></a>
 					<ul class="dropdown-menu">
 						<li>
-							<a href="/users"><span class="glyphicon glyphicon-user"></span> Users</a>
+							<a href="<%= users_path%>"><span class="glyphicon glyphicon-user"></span> <%= t('menu.users')%></a>
 						</li>
 						<li>
-							<a href="/reports"><span class="glyphicon glyphicon-stats"></span> Reports</a>
+							<a href="<%= reports_path%>"><span class="glyphicon glyphicon-stats"></span> <%= t('menu.reports')%></a>
 						</li>
 						<li>
 							<%if current_user.is? :superadmin%>
-							<a href="/stores"><span class="glyphicon glyphicon-adjust"></span> Stores</a>
+							<a href="/stores"><span class="glyphicon glyphicon-adjust"></span> <%= t('menu.stores')%></a>
 							<%else%>
 							<%= link_to edit_store_path(@current_store) do %>
 							<span class="glyphicon glyphicon-adjust"></span>
-							Store
+							<%= t('menu.store')%>
 							<%end%>
 							<%end%>
 						</li>
 						<li>
-							<a href="/branches"><span class="glyphicon glyphicon-adjust"></span> Branches</a>
+							<a href="<%= branches_path%>"><span class="glyphicon glyphicon-adjust"></span> <%= t('menu.branches')%></a>
 						</li>
 					</ul>
 				</li>
 			</ul>
+
 			<ul class="nav navbar-nav navbar-right">
-				<%if not current_user.is? :superadmin%>
+
+				<li>
+					<%= link_to t('menu.new_sale'), new_sale_path, :class => "btn btn-success btn-lg active" %>
+				</li>
+
+				<li>
+					<% if I18n.locale == I18n.default_locale %>
+					<%= link_to "简体中文", :locale=>'zh-CN'%>
+					<% else %>
+					<%= link_to "English", :locale=>'en'%>
+					<%end%>
+				</li>
+
+				<%if not current_user.is? :superadmin and current_user.branches.count>1%>
 
 				<li class="dropdown">
 					<a lass="dropdown-toggle" data-toggle="dropdown" href="#"><%= 'Branch : '+@current_branch.branch_name%> <span class="caret"></span> </a>

@@ -20,4 +20,14 @@
 # available at http://guides.rubyonrails.org/i18n.html.
 
 en:
-  hello: "Hello world"
+  menu:
+    customers: "Customers"
+    sales: "Sales"
+    items: "Items"
+    item_categories: "Item Categories"
+    users: "Users"
+    reports: "Reports"
+    store: "Store"
+    stores: "Stores"
+    branches: "Branches"
+    new_sale: "New Sale"
