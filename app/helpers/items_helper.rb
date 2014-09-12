@@ -1,4 +1,5 @@
 module ItemsHelper
+  
   def get_store_stock_amount(store,item)
     item.branch_items.sum(:stock_amount)
   end

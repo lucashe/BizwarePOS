@@ -11,7 +11,6 @@ gem 'will_paginate-bootstrap'
 gem 'uglifier', '>= 1.3.0'
 gem 'coffee-rails', '~> 4.0.0'
 gem 'turbolinks'
-gem 'kaminari'
 
 gem 'jquery-rails'
 gem 'jquery-ui-rails'
@@ -21,31 +20,28 @@ gem 'sass-rails', '>= 3.2'
 gem 'autoprefixer-rails'
 
 gem 'filterrific'
-#gem "chartkick"
-#gem 'groupdate'
+gem "chartkick"
 
 group :doc do
-# bundle exec rake doc:rails generates the API under doc/api.
+  # bundle exec rake doc:rails generates the API under doc/api.
   gem 'sdoc', require: false
 end
 
 group :production do
-  gem 'rails_12factor'
-  gem 'pg'
-  #gem 'mysql2'
+  gem 'mysql'
 end
 
 group :development do
   gem 'better_errors'
   gem 'binding_of_caller'
   gem 'debugger'
-  gem 'sqlite3'
+  gem 'pg'
 end
 
 group :test do
   gem 'capybara'
   gem 'rspec-rails'
-  gem 'sqlite3'
+  gem 'pg'
 end
 
 gem 'simple_form'

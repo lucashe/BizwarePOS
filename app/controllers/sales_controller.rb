@@ -1,5 +1,4 @@
 class SalesController < ApplicationController
-  
   def index
     if current_user.is? :superadmin
       @sales = Sale.all.paginate(:page => params[:page], :per_page => 20, :order => 'id DESC')
@@ -36,7 +35,7 @@ class SalesController < ApplicationController
     set_sale
 
     if current_user.can_update_items == true
-      @sale.destroy
+    @sale.destroy
     else
       redirect_to @sale, notice: 'You do not have permission to delete sales.'
     end
@@ -51,19 +50,26 @@ class SalesController < ApplicationController
     set_sale
     populate_items
 
-    if params[:search][:item_category].blank?
-      # Search by item name
-      @available_items = @current_store.items.find(:all, :conditions => ['name ILIKE ? AND published = true OR description ILIKE ? AND published = true OR sku ILIKE ? AND published = true', "%#{params[:search][:item_name]}%", "%#{params[:search][:item_name]}%", "%#{params[:search][:item_name]}%"], :limit => 5)
-    elsif params[:search][:item_name].blank?
-      # Search by item category
-      if params[:search][:item_category].to_s == '-1'
-        @available_items = @current_store.items.find(:all, :conditions => ['published = true'], :limit => 5)
-      else
-        @available_items = @current_store.items.find(:all, :conditions => ['item_category_id = ? AND published = true', "#{params[:search][:item_category]}"], :limit => 5)
-      end
+    if params[:search].blank?
+      @available_items = @current_store.items.where('published = true').paginate(:page => params[:page], :per_page => 20)
     else
+      if params[:search][:item_category].blank?
+        # Search by item name
+        @available_items = @current_store.items.where('name ILIKE ? AND published = true OR description ILIKE ? AND published = true OR sku ILIKE ? AND published = true', "%#{params[:search][:item_name]}%", "%#{params[:search][:item_name]}%", "%#{params[:search][:item_name]}%").paginate(:page => params[:page], :per_page => 20)
+      elsif params[:search][:item_name].blank?
+        # Search by item category
+        if params[:search][:item_category].to_s == '-1'
+          # Show all
+          @available_items = @current_store.items.where('published = true').paginate(:page => params[:page], :per_page => 20)
+        else
+        # Show specific category
+          @available_items = @current_store.items.where('item_category_id = ? AND published = true', "#{params[:search][:item_category]}").paginate(:page => params[:page], :per_page => 20)
+        end
+      else
       # Search by both
-      @available_items = @current_store.items.find(:all, :conditions => ['name ILIKE ? AND published = true AND item_category_id = ? OR description ILIKE ? AND published = true AND item_category_id = ? OR sku ILIKE ? AND published = true AND item_category_id = ?', "%#{params[:search][:item_name]}%", "#{params[:search][:item_category]}", "%#{params[:search][:item_name]}%", "#{params[:search][:item_category]}", "%#{params[:search][:item_name]}%", "#{params[:search][:item_category]}"], :limit => 5)
+        @available_items = @current_store.items.where('name ILIKE ? AND published = true AND item_category_id = ? OR description ILIKE ? AND published = true AND item_category_id = ? OR sku ILIKE ? AND published = true AND item_category_id = ?', "%#{params[:search][:item_name]}%", "#{params[:search][:item_category]}", "%#{params[:search][:item_name]}%", "#{params[:search][:item_category]}", "%#{params[:search][:item_name]}%", "#{params[:search][:item_category]}").paginate(:page => params[:page], :per_page => 20)
+      end
+
     end
 
     respond_to do |format|
@@ -74,8 +80,8 @@ class SalesController < ApplicationController
   def update_customer_options
     set_sale
     populate_items
-    
-    @available_customers = @store.customers.find(:all, :conditions => ['last_name ILIKE ? AND published = true OR first_name ILIKE ? AND published = true OR email_address ILIKE ? AND published = true OR phone_number ILIKE ? AND published = true', "%#{params[:search][:customer_name]}%","%#{params[:search][:customer_name]}%", "%#{params[:search][:customer_name]}%", "%#{params[:search][:customer_name]}%"], :limit => 5)
+
+    @available_customers = @current_store.customers.find(:all, :conditions => ['last_name ILIKE ? AND published = true OR first_name ILIKE ? AND published = true OR email_address ILIKE ? AND published = true OR phone_number ILIKE ? AND published = true', "%#{params[:search][:customer_name]}%","%#{params[:search][:customer_name]}%", "%#{params[:search][:customer_name]}%", "%#{params[:search][:customer_name]}%"], :limit => 5)
 
     respond_to do |format|
       format.js { ajax_refresh }
@@ -87,7 +93,7 @@ class SalesController < ApplicationController
 
     unless @sale.blank? || params[:customer_id].blank?
       @sale.customer_id = params[:customer_id]
-      @sale.save
+    @sale.save
     end
 
     respond_to do |format|
@@ -217,15 +223,13 @@ class SalesController < ApplicationController
     end
   end
 
-
-
   # Update Price For one Line Item
   def override_price
-    
+
     populate_items
-    
+
     @sale = Sale.find(params[:override_price][:sale_id])
-    
+
     item = Item.where(:id => params[:override_price][:line_item_id] ).first
     line_item = LineItem.where(:sale_id => params[:override_price][:sale_id], :item_id => item.id).first
     line_item.price = params[:override_price][:price].gsub('$', '')
@@ -238,7 +242,7 @@ class SalesController < ApplicationController
       format.js { ajax_refresh }
     end
   end
-  
+
   # update Total For Line Items
   def update_line_item_totals(line_item)
     line_item.total_price = line_item.price * line_item.quantity
@@ -247,9 +251,9 @@ class SalesController < ApplicationController
 
   # Update Total Discount
   def sale_discount
-    
+
     populate_items
-    
+
     @sale = Sale.find(params[:sale_discount][:sale_id])
     @sale.discount = params[:sale_discount][:discount]
     @sale.save
@@ -259,20 +263,20 @@ class SalesController < ApplicationController
     respond_to do |format|
       format.js { ajax_refresh }
     end
-    
+
   end
 
   # Destroy Line Item
- # def destroy_line_item
-			#
-			# set_sale
-			#
-			# update_totals
-			#
-			# respond_to do |format|
-			# format.js { ajax_refresh }
-			# end
-			# end
+  # def destroy_line_item
+  #
+  # set_sale
+  #
+  # update_totals
+  #
+  # respond_to do |format|
+  # format.js { ajax_refresh }
+  # end
+  # end
 
   # Update Sale Totals
   def update_totals
@@ -288,24 +292,24 @@ class SalesController < ApplicationController
     end
 
     @sale.tax = @sale.amount * tax_amount
-    
+
     total_amount = @sale.amount
     #total_amount = @sale.amount + (@sale.amount * tax_amount)
 
     if @sale.discount.blank?
-      @sale.total_amount = total_amount
+    @sale.total_amount = total_amount
     else
-      discount_amount = total_amount * @sale.discount
-      @sale.total_amount = total_amount - discount_amount
+    discount_amount = total_amount * @sale.discount
+    @sale.total_amount = total_amount - discount_amount
     end
 
     @sale.save
   end
 
   def add_comment
-    
+
     set_sale
-    
+
     @sale.comments = params[:sale_comments][:comments]
     @sale.save
 
@@ -341,7 +345,7 @@ class SalesController < ApplicationController
   end
 
   def populate_items
-    @available_items = @current_store.items.all(:conditions => ['published', true], :limit => 5)
+    @available_items = @current_store.items.where('published = true').paginate(:page => params[:page], :per_page => 20)
   end
 
   def populate_customers
@@ -366,12 +370,12 @@ class SalesController < ApplicationController
 
   def get_tax_rate
     if @current_store.tax_rate.blank?
-      return 0.07
+    return 0.07
     else
-      return @current_store.tax_rate.to_f * 0.01
+    return @current_store.tax_rate.to_f * 0.01
     end
   end
-  
+
   def get_popular_items
     if current_user.is? :superadmin
       elsif current_user.is? :storeadmin
@@ -379,7 +383,7 @@ class SalesController < ApplicationController
       elsif current_user.is? :branchadmin
         @popular_items = @current_branch.items.joins(:branch_items).select("item_id as id,name,sum(stock_amount) as stock_amount,sum(amount_sold) as amount_sold").group("name,item_id").find(:all, :limit => 10, :order => 'amount_sold DESC')
       elsif current_user.is? :staff
-    end
+      end
   end
 
 end

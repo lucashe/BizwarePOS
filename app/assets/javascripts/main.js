@@ -1,6 +1,6 @@
 $(document).ready(function(){
-
-	$(document).on("keypress", '.item_search_input', function(){
+		
+	$(document).on("keyup", '.item_search_input', function(){
 	  $('.item_search').click();
 	});
 
@@ -17,14 +17,13 @@ $(document).ready(function(){
 		});
 	});
 	
-	$(document).on("keypress", '.customer_search_input', function(){
+	$(document).on("keyup", '.customer_search_input', function(){
 	  $('.customer_search').click();
 	});
 
 	$(document).on("change", "#sale_comments_comments", function(){
 		$('.sale_comments').click();
 	});
-
 
 	$(document).on("change", "#line_item_price", function(){
 		$.ajax({

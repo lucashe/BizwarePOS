@@ -24,20 +24,21 @@
 		<div class="">
 
 			<span class="label label-info">Categories</span>
-			<button type="button" class="btn btn-success item_category_select" id="-1"  value="-1">
+			<button type="button" class="btn btn-success item_category_select" style="margin-bottom:3px" id="-1"  value="-1">
 				Show All
-				<div class="badge"><%=@current_store.items.where("published = true").count%></div>
+				<div class="badge">
+					<%= @current_store.items.where("published = true").count%>
+				</div>
 			</button>
 
 			<% for category in @current_store.item_categories.all %>
-			<button type="button" class="btn btn-default item_category_select" id="<%= category.id%>"  value="<%= category.id%>">
-				<%= category.name %>      
-				<div class="badge"><%=category.items.where("published = true").count%></span>
+			<button type="button" class="btn btn-default item_category_select" style="margin-bottom:3px" id="<%= category.id%>"  value="<%= category.id%>">
+				<%= category.name %>
+				<div class="badge">
+					<%= category.items.where("published = true").count%></span>
 			</button>
 			<% end %>
 		</div>
-
-		<hr>
 
 		<%= submit_tag "search", :class => "btn btn-primary btn-lg item_search" %>
 		<% end %>

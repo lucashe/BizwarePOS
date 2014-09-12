@@ -11,11 +11,10 @@
 		<meta name="robots" content="noindex">
 		<meta name="googlebot" content="noindex">
 		<title></title>
-		<meta name="description" content="Cloud-based Point of Sale">
+		<meta name="description" content="Bizware Point of Sale">
 		<meta name="viewport" content ="width=device-width; initial-scale=1.0;">
 
 		<%= stylesheet_link_tag "application", media: "all", "data-turbolinks-track" => true %>
-
 		<%= csrf_meta_tags %>
 
 	</head>
@@ -36,7 +35,7 @@
 			<%= yield %>
 
 			<% if user_signed_in? %>
-				<%= render :partial => 'template/footer' %>
+			<%= render :partial => 'template/footer' %>
 			<% end %>
 		</div>
 

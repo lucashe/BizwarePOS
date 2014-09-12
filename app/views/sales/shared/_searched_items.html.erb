@@ -1,28 +1,25 @@
 <!-- <h4 class="text-primary"><span class="glyphicon glyphicon-tags"></span> Searched Items</h4> -->
 
+<%= paginate @available_items , :params => {:controller => 'sales', :action => 'update_line_item_options'},:remote => true%>
+
 <div class="table-responsive">
-	<table class="table table-striped table-bordered table-hover table-word-wrap">
-		<thead>
-			<tr>
-				<th>Item</th>
-				<th>Price</th>
-				<th>Add</th>
-			</tr>
-		</thead>
+	<table class="table table-bordered table-word-wrap table_no_padding">
 
 		<tbody>
 			<% unless @available_items.blank? %>
-			<% for item in @available_items %>
+			<% @available_items.in_groups_of(4,false) do |item_row| %>
 			<tr>
-				<!-- <td><%= item.sku %></td> -->
-				<td><%= item.name %></td>
-				<td><%= number_to_currency(item.price) %></td>
-				<td class="add_to_current_sale"><%= link_to url_for(:controller => 'sales', :action => 'create_line_item', :item_id => item.id, :sale_id => @sale.id, :quantity => 1, :branch_id => @current_branch_id), :remote => true do %> 
-			    <button class="btn btn-sm btn-success glyphicon glyphicon-plus"></button><!-- <span class="glyphicon glyphicon-plus"></span> --> <% end %></td>
+				<% for item in item_row %>
+				<td class="add_to_current_sale"><%= link_to url_for(:controller => 'sales', :action => 'create_line_item', :item_id => item.id, :sale_id => @sale.id, :quantity => 1, :branch_id => @current_branch_id), :remote => true do %>
+				<p style="margin: 10px 5px">
+					<label ><%= item.name %></label>
+				</p></td><% end %>
+				<% end %>
 			</tr>
 			<% end %>
 			<% end %>
 		</tbody>
 	</table>
+
 </div>
 

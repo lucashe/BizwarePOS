@@ -53,6 +53,8 @@ body {
 .table-word-wrap {
     table-layout: fixed;
     word-wrap: break-word;
+    margin-top: 5px;
+    margin-bottom: 5px;
 }
 
 .item_search, .customer_search, .sale_comments {
@@ -70,8 +72,13 @@ body {
   }
 }
 
+.searched_items{
+  margin-top:5px;
+}
+
 .add_to_current_sale {
   color:#428BCA;
+  vertical-align:middle;
 }
 
 .table_no_padding > tbody > tr > td{
@@ -82,6 +89,10 @@ body {
 .form-control_big_font {
     font-size: 18px;
     padding: 4px 4px;
+}
+
+.pagination{
+  margin :0px;
 }
 
 

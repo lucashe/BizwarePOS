@@ -5,13 +5,13 @@ class Item < ActiveRecord::Base
   belongs_to :item_category
 
   has_many :line_items
-
   has_many :branch_items,:dependent => :destroy
+  
   has_many :branches, through: :branch_items
   accepts_nested_attributes_for :branch_items
 
-  validates :sku, :presence => true, :uniqueness => true
-  validates :name, :presence => true, :uniqueness => true
+  validates :sku, :presence => true
+  validates :name, :presence => true
   validates :price, :presence => true
 
   default_scope :order => 'id ASC'

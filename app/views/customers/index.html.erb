@@ -4,7 +4,9 @@
 			<thead>
 				<tr>
 					<th>Full Name</th>
-
+					<th>Phone</th>
+					<th>Reward Dollar</th>
+					<th>Actions</th>
 				</tr>
 			</thead>
 
@@ -12,7 +14,8 @@
 				<% @customers.each do |customer| %>
 				<tr>
 					<td><%= customer.last_name + "," + customer.first_name %></td>
-
+					<td><%= customer.phone_number %></td>
+					<td><%= customer.rewards||0 %> $</td>
 					<td><%= link_to 'Edit', edit_customer_path(customer) %> | <%= link_to 'Remove', customer, method: :delete, data: { confirm: 'Are you sure?' } %></td>
 				</tr>
 				<% end %>
@@ -22,7 +25,6 @@
 			<%= will_paginate @customers, renderer: BootstrapPagination::Rails %>
 		</div>
 	</div>
-</div>
 </div>
 
 <%= link_to 'New Customer', new_customer_path, :class => "btn btn-success btn-lg active" %>

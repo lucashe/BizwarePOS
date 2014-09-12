@@ -3,12 +3,13 @@ class User < ActiveRecord::Base
   # :confirmable, :lockable, :timeoutable and :omniauthable
   devise :database_authenticatable,
          :recoverable, :rememberable, :trackable, :validatable
-
+         
   validates :username, :presence => true, :uniqueness => true
 
   has_many :user_employments
   has_many :branches, through: :user_employments
   has_many :sales
+  has_many :payment, through: :sales
   belongs_to :store
 
   ROLES = %w[staff branchadmin storeadmin superadmin]
