@@ -46,6 +46,7 @@ PushvendorPos::Application.routes.draw do
       get 'add_comment'
       post 'override_price'
       post 'sale_discount'
+      post 'rewards_redemption'
     end
   end
 

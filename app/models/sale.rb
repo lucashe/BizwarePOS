@@ -27,7 +27,7 @@ class Sale < ActiveRecord::Base
   end
 
   def get_discounted_amount
-    self.total_amount * self.discount
+    self.amount * self.discount
   end
 
   def paid_total

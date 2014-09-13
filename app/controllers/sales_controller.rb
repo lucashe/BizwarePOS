@@ -19,9 +19,7 @@ class SalesController < ApplicationController
   def edit
     set_sale
     get_popular_items
-
     populate_items
-    populate_customers
 
     @sale.line_items.build
     @sale.payments.build
@@ -90,11 +88,15 @@ class SalesController < ApplicationController
 
   def create_customer_association
     set_sale
+    populate_items
 
     unless @sale.blank? || params[:customer_id].blank?
       @sale.customer_id = params[:customer_id]
+    @sale.discount = @current_store.member_discount.to_d/100
     @sale.save
     end
+
+    update_totals
 
     respond_to do |format|
       format.js { ajax_refresh }
@@ -266,6 +268,28 @@ class SalesController < ApplicationController
 
   end
 
+  def rewards_redemption
+
+    populate_items
+
+    @sale = Sale.find(params[:sale_reward][:sale_id])
+    @use_rewards = params[:sale_reward][:use_rewards]
+
+    if @use_rewards == 'true'
+      @sale.rewards_used = [@sale.customer.rewards, @sale.total_amount].min
+    else
+      @sale.rewards_used = 0
+    end
+    @sale.save
+
+    update_totals
+
+    respond_to do |format|
+      format.js { ajax_refresh }
+    end
+
+  end
+
   # Destroy Line Item
   # def destroy_line_item
   #
@@ -281,7 +305,8 @@ class SalesController < ApplicationController
   # Update Sale Totals
   def update_totals
 
-    tax_amount = get_tax_rate
+    tax_rate = get_tax_rate
+    reward_rate = get_reward_rate
 
     set_sale
 
@@ -291,16 +316,22 @@ class SalesController < ApplicationController
       @sale.amount += line_item.total_price
     end
 
-    @sale.tax = @sale.amount * tax_amount
+    @sale.tax = @sale.amount * tax_rate
 
     total_amount = @sale.amount
-    #total_amount = @sale.amount + (@sale.amount * tax_amount)
+    #total_amount = @sale.amount + (@sale.amount * tax_rate
 
     if @sale.discount.blank?
-    @sale.total_amount = total_amount
+      @sale.total_amount = total_amount
     else
-    discount_amount = total_amount * @sale.discount
-    @sale.total_amount = total_amount - discount_amount
+      discount_amount = total_amount * @sale.discount
+      @sale.total_amount = total_amount - discount_amount
+    end
+
+    @sale.total_amount = @sale.total_amount - @sale.rewards_used
+
+    if not @sale.customer.blank?
+      @sale.rewards_earned = @sale.total_amount * reward_rate
     end
 
     @sale.save
@@ -349,7 +380,7 @@ class SalesController < ApplicationController
   end
 
   def populate_customers
-    @available_customers = @current_store.customers.all(:conditions => ['published', true], :limit => 5)
+    # @available_customers = @current_store.customers.all(:conditions => ['published', true], :limit => 5)
   end
 
   def remove_item_from_stock(item_id, quantity, branch_id)
@@ -373,6 +404,14 @@ class SalesController < ApplicationController
     return 0.07
     else
     return @current_store.tax_rate.to_f * 0.01
+    end
+  end
+
+  def get_reward_rate
+    if @current_store.member_reward.blank?
+    return 0
+    else
+    return @current_store.member_reward.to_f * 0.01
     end
   end
 

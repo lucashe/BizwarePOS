@@ -1,52 +1,72 @@
-<!-- <h4 class="text-primary"><span class="glyphicon glyphicon-usd"></span> Sale Totals</h4>
-<hr /> -->
-<div class="row">
-	<div class="col-sm-3 col-sm-3-min-padding">
-		<label class="text-success">Base Price $</label>
-		<input type="text" class="form-control" readonly value=<%= number_to_currency(@sale.amount, unit: '') %>>
-	</div>
-	<div class="col-sm-3 col-sm-3-min-padding">
-		<label>Tax (<%= @current_store.tax_rate.blank? ? 'not configured' : @current_store.tax_rate %>%)</label>
-		<input type="text" class="form-control" readonly value=<%= number_to_currency(@sale.tax, unit: '') %>>
-	</div>
-	<div class="col-sm-3 col-sm-3-min-padding">
-		<label class="text-danger" >Discount %</label>
-		<select id="sale_discount" class="form-control sale-discount">
-			<% 0.step(100, 5) do |disc| %>
-			<% dec_discount = (disc.to_d / 100).to_s %>
-			<option value="<%= dec_discount %>"
-			<%= @sale.discount.to_s == dec_discount ? "selected" : nil %>> <%= disc.to_s + "%" %> </option>
-			<% end %>
-		</select>
-	</div>
-	<div class="col-sm-3 col-sm-3-min-padding">
-		<label class="text-danger" >Discount $</label>
-		<input type="text" class="form-control" readonly value=$<%= @sale.discount.blank? ? 0 : number_to_currency(@sale.get_discounted_amount, unit: '') %>>
-	</div>
+<h4 class="text-primary hidden-print"><span class="glyphicon glyphicon-shopping-cart"></span>Payment
+<%= @sale.customer.blank? ? '' : '(' + @sale.customer.full_name + ' ' +number_to_currency(@sale.customer.rewards, unit: '$') + ')'  %></h4>
+
+<% unless @sale.total_amount.blank? %>
+<% if @sale.remaining_balance <= 0.00 && @sale.payments.count > 0 %>
+<div class="alert alert-success hidden-print">
+	Payment Done. Change Due: <%= number_to_currency @sale.change_due %>
 </div>
+<% else %>
+<div class="alert alert-danger hidden-print">
+	Remaining : <%= number_to_currency @sale.remaining_balance %>
+</div>
+<%end%>
+<%end%>
 
-<h4 class="text-primary hidden-print"><span class="glyphicon glyphicon-shopping-cart"></span>Payment</h4>
 <div class="row">
-	<div class="input-group has-success total_price_output col-sm-6">
-		<input type="text" class="form-control price_output" readonly value="<%= number_to_currency(@sale.total_amount, unit: '$') %>">
-	</div>
-	<% unless @sale.total_amount.blank? %>
+	<div class="total_price_output">
 
-	<div class="col-sm-6">
+		<%if @sale.amount>0%>
 
-		<% if @sale.remaining_balance <= 0.00 && @sale.payments.count > 0 %>
-		<div class="alert alert-success hidden-print">
-			Payment Done. Change Due: <%= number_to_currency @sale.change_due %>
-		</div>
-		<% else %>
-		<div class="alert alert-danger hidden-print">
-			Remaining : <%= number_to_currency @sale.remaining_balance %>
-		</div>
+		<table class="table">
+			<tr>
+				<td><label>Subtotal</label></td>
+				<td>+ <%= number_to_currency(@sale.amount, unit: '$')%> (GST: <%= number_to_currency(@sale.tax, unit: '$') %>)</td>
+			</tr>
+			<tr>
+				<td><label>Discount</label></td>
+				<td>- <%= @sale.discount.blank? ? 0 : number_to_currency(@sale.get_discounted_amount, unit: '$') %> (-<%= @sale.discount.blank? ? 0 : @sale.discount * 100%>%) </td>
+				<td>
+				<select id="sale_discount" class="form-control sale-discount">
+					<% 0.step(100, 5) do |disc| %>
+					<% dec_discount = (disc.to_d / 100).to_s %>
+					<option value="<%= dec_discount %>"
+					<%= @sale.discount.to_s == dec_discount ? "selected" : nil %>> <%= disc.to_s + "%" %> </option>
+					<% end %>
+				</select></td>
+			</tr>
+			<%unless @sale.customer.blank? || @current_store.member_reward==0 %>
+			<tr>
+				<td><label>
+					<input type="checkbox" class="sale-reward-select" <%if @sale.rewards_used>0%>
+					checked<%end%>>
+					Redeem Rewards </label></td>
+				<td><%if @sale.rewards_used>0%>- <%= number_to_currency(@sale.rewards_used, unit: '$')%> <%end%></td>
+			</tr>
+			<%end%>
+			<tr class="price_output">
+				<td>Total</td>
+				<td><%= number_to_currency(@sale.total_amount, unit: '$') %></td>
+			</tr>
+			<%unless @sale.customer.blank? || @current_store.member_reward==0%>
+			<tr>
+				<td><label>Rewards Earned</label></td>
+				<td>+ <%= @sale.rewards_earned%></td>
+			</tr>
+			<%end%>
+
+		</table>
+
 		<%end%>
+
 	</div>
+
+</div>
+<div class="row">
+
 	<div class="col-sm-6">
-		<%= link_to 'Make Payment',{:controller => "payments", :action =>"make_payment",:sale_id => @sale.id, :payment_type => "cash",:payment_amount => @sale.remaining_balance},:class=>"btn btn-primary btn-lg" %>
+		<%= link_to 'Cash Payment',{:controller => "payments", :action =>"make_payment",:sale_id => @sale.id, :payment_type => "cash",:payment_amount => @sale.remaining_balance},:class=>"btn btn-primary btn-lg" %>
 	</div>
-	<% end %>
+
 </div>
 

@@ -169,11 +169,11 @@ Login Form
     margin:10px auto 20px auto;
     color:#777;
   }
-  .copyright {
-  position: absolute;
+}
+
+.copyright {
   margin-top:30px;
-      color:#777;
-  }
+  color:#777;
 }
 
 .clearboth {
@@ -230,16 +230,14 @@ clear:both;
 
 .row {
   .sale_totals {
-    .input-group {
-      &.total_price_output {
-        .price_output {
+     .total_price_output {
+       .price_output {
           background: none;
           border:none;
           font-size: 3em;
           height: auto;
-        }
-      }
-    }
+       }
+     }
   }
 }
 .custom_item_link {

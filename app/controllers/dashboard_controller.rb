@@ -27,7 +27,7 @@ class DashboardController < ApplicationController
     @sale.tax = price * get_tax_rate
     @sale.amount = price
     #@sale.total_amount = price + (price * get_tax_rate)
-    @sale.total_amount = price 
+    @sale.total_amount = price
     @sale.save
 
     redirect_to :controller => 'sales', :action => 'edit', :id => @sale.id
@@ -35,9 +35,9 @@ class DashboardController < ApplicationController
 
   def get_tax_rate
     if @current_store.tax_rate.blank?
-      return 0.07
+    return 0.07
     else
-      return @current_store.tax_rate.to_f * 0.01
+    return @current_store.tax_rate.to_f * 0.01
     end
   end
 
@@ -54,7 +54,7 @@ class DashboardController < ApplicationController
         @popular_items = @current_branch.items.joins(:branch_items).select("item_id as id,name,sum(stock_amount) as stock_amount,sum(amount_sold) as amount_sold").group("name,item_id").find(:all, :limit => 10, :order => 'amount_sold DESC')
       elsif current_user.is? :staff
 
-    end
+      end
   end
 
 end

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140910152751) do
+ActiveRecord::Schema.define(version: 20140913164028) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -103,17 +103,19 @@ ActiveRecord::Schema.define(version: 20140910152751) do
   end
 
   create_table "sales", force: true do |t|
-    t.decimal  "amount",           precision: 8, scale: 2
-    t.decimal  "total_amount",     precision: 8, scale: 2
-    t.decimal  "remaining_amount"
-    t.decimal  "discount",         precision: 8, scale: 2
-    t.decimal  "tax",              precision: 8, scale: 2
+    t.decimal  "amount",           precision: 8, scale: 2, default: 0.0
+    t.decimal  "total_amount",     precision: 8, scale: 2, default: 0.0
+    t.decimal  "remaining_amount",                         default: 0.0
+    t.decimal  "discount",         precision: 8, scale: 2, default: 0.0
+    t.decimal  "tax",              precision: 8, scale: 2, default: 0.0
     t.integer  "customer_id"
     t.text     "comments"
     t.datetime "created_at"
     t.datetime "updated_at"
     t.integer  "branch_id"
     t.integer  "user_id"
+    t.decimal  "rewards_earned",   precision: 8, scale: 2, default: 0.0
+    t.decimal  "rewards_used",     precision: 8, scale: 2, default: 0.0
   end
 
   create_table "stores", force: true do |t|
