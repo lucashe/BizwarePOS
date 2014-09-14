@@ -1,5 +1,3 @@
-<%= render :partial => 'template/dashboard_menu' %>
-
 <div class="panel panel-default">
 	<!-- Default panel contents -->
 	<div class="panel-heading">
@@ -25,7 +23,6 @@
 		<% end %>
 		<% end %>
 	</div>
-
 </div>
 
 <div class="panel panel-default">
@@ -39,21 +36,22 @@
 				<th>Created</th>
 				<th>Customer</th>
 				<th>Total</th>
-				<th>Tax</th>
 				<th>Paid</th>
-				<th>Balance</th>
-				<th></th>
+				<th>Cost</th>
+				<th>Profit</th>
+				<th>Action</th>
 			</tr>
 			<% for sale in @recent_sales %>
 			<tr class="<%= sale.remaining_balance == 0.00 && !sale.total_amount.blank? ? 'success' : '' %>">
 				<td><%= sale.id %></td>
 				<td><%= sale.created_at.strftime("%m/%d/%y %I:%M:%S %p")  %></td>
-				<td><%= sale.customer.blank? ? '-' : sale.customer.last_name %></td>
+				<td><%= sale.customer.blank? ? '-' : sale.customer.full_name %></td>
 				<td><%= number_to_currency sale.total_amount %></td>
-				<td><%= number_to_currency sale.tax %></td>
 				<td><%= number_to_currency sale.paid_total %></td>
-				<td><%= sale.remaining_balance == 0.00 && sale.payments.count > 0 ? "Paid" : "#{number_to_currency sale.remaining_balance}" %></td>
-				<td><%= link_to 'Show', edit_sale_path(sale) %> | <%= link_to 'Destroy', sale, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+				<td><%= number_to_currency sale.cost %></td>
+				<td><%= number_to_currency sale.profit %></td>
+
+				<td><%if sale.is_final%><%= link_to 'Invoice', sale_path(sale) %><%else%><%= link_to 'Edit', edit_sale_path(sale) %><%end%></td>
 			</tr>
 			<% end %>
 		</table>

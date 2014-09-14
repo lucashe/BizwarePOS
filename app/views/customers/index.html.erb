@@ -4,8 +4,9 @@
 			<thead>
 				<tr>
 					<th>Full Name</th>
+					<th>IC</th>
 					<th>Phone</th>
-					<th>Reward Dollar</th>
+					<th>Rewards $</th>
 					<th>Actions</th>
 				</tr>
 			</thead>
@@ -13,7 +14,8 @@
 			<tbody>
 				<% @customers.each do |customer| %>
 				<tr>
-					<td><%= customer.last_name + "," + customer.first_name %></td>
+					<td><%= customer.full_name %></td>
+					<td><%= customer.ic %></td>
 					<td><%= customer.phone_number %></td>
 					<td><%= customer.rewards||0 %> $</td>
 					<td><%= link_to 'Edit', edit_customer_path(customer) %> | <%= link_to 'Remove', customer, method: :delete, data: { confirm: 'Are you sure?' } %></td>

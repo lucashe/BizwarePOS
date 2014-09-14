@@ -21,11 +21,11 @@
 
 en:
   menu:
-    customers: "Customers"
+    customers: "Members"
     sales: "Sales"
-    items: "Items"
-    item_categories: "Item Categories"
-    users: "Users"
+    items: "Products"
+    item_categories: "Product Categories"
+    users: "Staff"
     reports: "Reports"
     store: "Store"
     stores: "Stores"

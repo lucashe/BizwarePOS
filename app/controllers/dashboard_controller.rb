@@ -20,7 +20,7 @@ class DashboardController < ApplicationController
   def create_sale_with_product
     @sale = @current_branch.sales.create(:user_id => current_user.id)
     item = Item.find(params[:item_id])
-    LineItem.create(:item_id => params[:item_id].to_i, :quantity => params[:quantity].to_i, :price => item.price, :total_price => item.price * params[:quantity].to_i, :sale_id => @sale.id)
+    LineItem.create(:item_id => params[:item_id].to_i, :quantity => params[:quantity].to_i, :price => item.price, :total_price => item.price * params[:quantity].to_i, :cost => item.cost_price, :total_cost => item.cost_price * params[:quantity].to_i, :sale_id => @sale.id)
 
     price = (item.price * params[:quantity].to_i)
 

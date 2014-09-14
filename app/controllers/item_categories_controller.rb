@@ -53,7 +53,7 @@ class ItemCategoriesController < ApplicationController
   # DELETE /item_categories/1
   # DELETE /item_categories/1.json
   def destroy
-    @item_category.destroy
+    @item_category.destro
     respond_to do |format|
       format.html { redirect_to item_categories_path }
       format.json { head :no_content }

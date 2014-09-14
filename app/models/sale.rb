@@ -11,7 +11,6 @@ class Sale < ActiveRecord::Base
   accepts_nested_attributes_for :line_items, :allow_destroy => true
   accepts_nested_attributes_for :items, :allow_destroy => true
   accepts_nested_attributes_for :payments, :allow_destroy => true
-  
   def remaining_balance
     if self.total_amount.blank?
     balance = 0.00
@@ -42,12 +41,12 @@ class Sale < ActiveRecord::Base
 
   def change_due
     if self.total_amount.blank?
-    return 0.00
+      return 0.00
     else
       if paid_total > self.total_amount
         return paid_total - self.total_amount
       else
-      return 0.00
+        return 0.00
       end
     end
   end
@@ -55,6 +54,10 @@ class Sale < ActiveRecord::Base
   def add_customer(customer_id)
     self.customer_id = customer_id
     self.save
+  end
+
+  def profit
+    self.total_amount - self.cost
   end
 
 end

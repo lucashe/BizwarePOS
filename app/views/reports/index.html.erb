@@ -1,24 +1,49 @@
 <div class="panel panel-default">
 
 	<div class="panel-body">
-	  <ul class="nav nav-tabs hidden-print">
-	    <li class="active"><a href="#totals" data-toggle="tab">Totals</a></li>
-	    <li><a href="#today" data-toggle="tab">Today</a></li>
-	    <li><a href="#date_range" data-toggle="tab">Date Range</a></li>
-	  </ul>
-  
-	  <div class="tab-content">
-	    <div class="tab-pane active" id="totals">
-	    	<%= render :partial => 'template/sales_summary' %>
-	    </div>
-	    <div class="tab-pane" id="today">
-	    	<%= render :partial => 'template/sales_today' %>
-	    </div>
-	    <div class="tab-pane" id="date_range">
-	    	<%= render :partial => 'template/sales_date_range' %>
-	    </div>
-	  </div>
-	</div>
+		<ul class="nav nav-tabs hidden-print">
 
+			<li class="active">
+				<a href="#today" data-toggle="tab">Today</a>
+			</li>
+			<li>
+				<a href="#week" data-toggle="tab">This Week</a>
+			</li>
+			<li>
+				<a href="#month" data-toggle="tab">This Month</a>
+			</li>
+			<li>
+				<a href="#quarter" data-toggle="tab">This Quarter</a>
+			</li>
+			<li>
+				<a href="#year" data-toggle="tab">This Year</a>
+			</li>
+			<li >
+				<a href="#totals" data-toggle="tab">Total</a>
+			</li>
+		</ul>
+
+		<div class="tab-content">
+
+			<div class="tab-pane active" id="today">
+				<%= render :partial => 'reports/shared/sales_today' %>
+			</div>
+			<div class="tab-pane" id="week">
+				<%= render :partial => 'reports/shared/sales_week' %>
+			</div>
+			<div class="tab-pane" id="month">
+				<%= render :partial => 'reports/shared/sales_month' %>
+			</div>
+			<div class="tab-pane" id="quarter">
+				<%= render :partial => 'reports/shared/sales_quarter' %>
+			</div>
+			<div class="tab-pane" id="year">
+				<%= render :partial => 'reports/shared/sales_year' %>
+			</div>
+			<div class="tab-pane" id="totals">
+				<%= render :partial => 'template/sales_summary' %>
+			</div>
+		</div>
+	</div>
 
 </div>

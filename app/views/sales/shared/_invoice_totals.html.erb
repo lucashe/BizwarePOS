@@ -1,26 +1,30 @@
-<table class="table table-bordered">
-  <tbody>
-    <tr>
-      <td>Base Price: </td>
-      <td><%= number_to_currency(@sale.amount) %></td>
-    </tr>
-    <% unless @sale.discount.blank? %>
-      <tr>
-        <td>Discount: </td>
-        <td><%= number_to_currency(@sale.get_discounted_amount) %></td>
-      </tr>
-    <% end %>
-    <tr>
-      <td>Tax: </td>
-      <td><%= number_to_currency(@sale.tax) %></td>
-    </tr>
-    <tr>
-      <td>Total Price: </td>
-      <td><%= number_to_currency(@sale.amount) %></td>
-    </tr>
-    <tr>
-      <td>Balance: </td>
-      <td><%= number_to_currency(@sale.total_amount) %></td>
-    </tr>
-  </tbody>
+<table class="table ">
+	<tbody>
+		<% @sale.line_items.each do |i|%>
+		<tr class="success">
+			<td><%= i.item.name%> * <%= i.quantity%></td>
+			<td><%= number_to_currency(i.total_price)%></td>
+		</tr>
+		<%end%>
+		<tr class="active">
+			<td><label>Sub Total: </label></td>
+			<td>+ <%= number_to_currency(@sale.amount) %> (GST: <%= number_to_currency(@sale.tax) %>)</td>
+		</tr>
+		<% unless @sale.discount.blank? %>
+		<tr class="active">
+			<td><label>Discount: </label></td>
+			<td>- <%= number_to_currency(@sale.get_discounted_amount) %></td>
+		</tr>
+		<% end %>
+		<% unless @sale.rewards_used.blank? || @sale.rewards_used ==0%>
+		<tr class="active">
+			<td><label>Rewards Redemption</label></td>
+			<td>- <%= number_to_currency(@sale.rewards_used) %></td>
+		</tr>
+		<% end %>
+		<tr class="active">
+			<td><label>Total:</label></td>
+			<td><%= number_to_currency(@sale.total_amount) %></td>
+		</tr>
+	</tbody>
 </table>

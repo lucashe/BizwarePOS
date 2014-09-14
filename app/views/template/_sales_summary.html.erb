@@ -1,8 +1,8 @@
 <div class="panel-body">
-	Sales: <%= number_to_currency raw_sales(:store) %>
+	Sales: <%= number_to_currency get_sales_total(:store,nil,nil) %>
 	<br />
-	Paid: <%= number_to_currency payment_total(:store) %>
+	Paid: <%= number_to_currency get_payments_total(:store,nil,nil) %>
 	<br />
-	<%= owed_balance(:store) >= 0 ? "Owed: " : "Owe: " %><%= number_to_currency(owed_balance(:store)) %>
+	<%= get_owed_balance(:store,nil,nil) >= 0 ? "Owed: " : "Owe: " %><%= number_to_currency(get_owed_balance(:store,nil,nil)) %>
 
 </div>

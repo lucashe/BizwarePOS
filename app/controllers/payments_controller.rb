@@ -1,6 +1,9 @@
 class PaymentsController < ApplicationController
   def make_payment
     @sale = Sale.find(params[:sale_id])
+    @sale.is_final = true
+    @sale.save
+
     payment = Payment.create(:payment_type => params[:payment_type], :amount => params[:payment_amount], :sale_id => params[:sale_id])
 
     if not @sale.customer.nil?
@@ -10,7 +13,7 @@ class PaymentsController < ApplicationController
     end
 
     respond_to do |format|
-      format.html { redirect_to edit_sale_path(@sale), notice: 'Payment was done.' }
+      format.html { redirect_to sale_path(@sale), notice: 'Payment was done.' }
       format.js
     end
   end

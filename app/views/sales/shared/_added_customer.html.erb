@@ -3,14 +3,10 @@
 	<table class="table table-striped table-bordered table-hover">
 		<thead>
 			<tr>
-				<th>First Name</th>
-				<th>Last Name</th>
-				<th>Phone Number</th>
-				<th>Email Address</th>
-				<th>Address</th>
-				<th>City</th>
-				<th>State</th>
-				<th>Zip</th>
+				<th>Full Name</th>
+				<th>IC</th>
+				<th>Phone</th>
+				<th>Rewards $</th>
 			</tr>
 		</thead>
 
@@ -18,14 +14,10 @@
 			<%= fields_for @sale do |f|%>
 			<%= f.fields_for :customer, Customer.find(@sale.customer.id) do |e| %>
 			<tr>
-				<td><%= e.text_field :first_name, :class => "form-control", :placeholder => "First Name", :readonly => true %></td>
-				<td><%= e.text_field :last_name, :class => "form-control", :placeholder => "Last Name", :readonly => true %></td>
-				<td><%= e.text_field :phone_number, :class => "form-control", :placeholder => "Email Address", :readonly => true %></td>
-				<td><%= e.text_field :email_address, :class => "form-control", :placeholder => "Email Address", :readonly => true %></td>
-				<td><%= e.text_field :address, :class => "form-control", :placeholder => "Email Address", :readonly => true %></td>
-				<td><%= e.text_field :city, :class => "form-control", :placeholder => "Email Address", :readonly => true %></td>
-				<td><%= e.text_field :state, :class => "form-control", :placeholder => "Email Address", :readonly => true %></td>
-				<td><%= e.text_field :zip, :class => "form-control", :placeholder => "Email Address", :readonly => true %></td>
+				<td><%= e.text_field :full_name, :class => "form-control", :placeholder => "Full Name", :readonly => true %></td>
+				<td><%= e.text_field :ic, :class => "form-control", :placeholder => "IC", :readonly => true %></td>
+				<td><%= e.text_field :phone_number, :class => "form-control", :placeholder => "Phone Number", :readonly => true %></td>
+				<td><%= e.text_field :rewards, :class => "form-control", :placeholder => "Rewards $", :readonly => true %></td>
 			</tr>
 			<% end %>
 			<% end %>

@@ -18,6 +18,7 @@ class SalesController < ApplicationController
 
   def edit
     set_sale
+
     get_popular_items
     populate_items
 
@@ -27,6 +28,10 @@ class SalesController < ApplicationController
     @custom_item = @current_store.items.new
     @custom_customer = @current_store.customers.new
 
+  end
+
+  def show
+    set_sale
   end
 
   def destroy
@@ -79,7 +84,7 @@ class SalesController < ApplicationController
     set_sale
     populate_items
 
-    @available_customers = @current_store.customers.find(:all, :conditions => ['last_name ILIKE ? AND published = true OR first_name ILIKE ? AND published = true OR email_address ILIKE ? AND published = true OR phone_number ILIKE ? AND published = true', "%#{params[:search][:customer_name]}%","%#{params[:search][:customer_name]}%", "%#{params[:search][:customer_name]}%", "%#{params[:search][:customer_name]}%"], :limit => 5)
+    @available_customers = @current_store.customers.find(:all, :conditions => ['last_name ILIKE ? AND published = true OR first_name ILIKE ? AND published = true OR email_address ILIKE ? AND published = true OR phone_number ILIKE ? AND published = true OR IC ILIKE ? AND published = true', "%#{params[:search][:customer_name]}%","%#{params[:search][:customer_name]}%", "%#{params[:search][:customer_name]}%", "%#{params[:search][:customer_name]}%", "%#{params[:search][:customer_name]}%"], :limit => 5)
 
     respond_to do |format|
       format.js { ajax_refresh }
@@ -105,6 +110,7 @@ class SalesController < ApplicationController
 
   # Add a searched Item
   def create_line_item
+
     set_sale
     populate_items
 
@@ -113,6 +119,7 @@ class SalesController < ApplicationController
     if existing_line_item.blank?
       line_item = LineItem.new(:item_id => params[:item_id], :sale_id => params[:sale_id], :quantity => params[:quantity])
       line_item.price = line_item.item.price
+      line_item.cost  = line_item.item.cost_price
       line_item.save
 
       remove_item_from_stock(params[:item_id], 1, params[:branch_id])
@@ -141,7 +148,7 @@ class SalesController < ApplicationController
     line_item = LineItem.where(:sale_id => params[:sale_id], :item_id => params[:item_id]).first
     line_item.quantity -= 1
     if line_item.quantity <= 0
-    line_item.destroy
+      line_item.destroy
     else
       line_item.save
       update_line_item_totals(line_item)
@@ -173,6 +180,14 @@ class SalesController < ApplicationController
     respond_to do |format|
       format.js { ajax_refresh }
     end
+  end
+
+  def remove_all_item
+
+    set_sale
+    populate_items
+    
+    
   end
 
   def create_custom_item
@@ -245,9 +260,11 @@ class SalesController < ApplicationController
     end
   end
 
-  # update Total For Line Items
+  # update Total Price/Cost For Line Items
   def update_line_item_totals(line_item)
     line_item.total_price = line_item.price * line_item.quantity
+    line_item.total_cost = line_item.cost * line_item.quantity
+
     line_item.save
   end
 
@@ -278,7 +295,7 @@ class SalesController < ApplicationController
     if @use_rewards == 'true'
       @sale.rewards_used = [@sale.customer.rewards, @sale.total_amount].min
     else
-      @sale.rewards_used = 0
+    @sale.rewards_used = 0
     end
     @sale.save
 
@@ -311,9 +328,11 @@ class SalesController < ApplicationController
     set_sale
 
     @sale.amount = 0.00
+    @sale.cost   = 0.00
 
     for line_item in @sale.line_items
       @sale.amount += line_item.total_price
+      @sale.cost   += line_item.total_cost
     end
 
     @sale.tax = @sale.amount * tax_rate
@@ -322,16 +341,16 @@ class SalesController < ApplicationController
     #total_amount = @sale.amount + (@sale.amount * tax_rate
 
     if @sale.discount.blank?
-      @sale.total_amount = total_amount
+    @sale.total_amount = total_amount
     else
-      discount_amount = total_amount * @sale.discount
-      @sale.total_amount = total_amount - discount_amount
+    discount_amount = total_amount * @sale.discount
+    @sale.total_amount = total_amount - discount_amount
     end
 
     @sale.total_amount = @sale.total_amount - @sale.rewards_used
 
     if not @sale.customer.blank?
-      @sale.rewards_earned = @sale.total_amount * reward_rate
+    @sale.rewards_earned = @sale.total_amount * reward_rate
     end
 
     @sale.save
@@ -340,6 +359,7 @@ class SalesController < ApplicationController
   def add_comment
 
     set_sale
+    populate_items
 
     @sale.comments = params[:sale_comments][:comments]
     @sale.save

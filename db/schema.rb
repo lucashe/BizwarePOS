@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140913181853) do
+ActiveRecord::Schema.define(version: 20140914144706) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -57,7 +57,7 @@ ActiveRecord::Schema.define(version: 20140913181853) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.integer  "store_id"
-    t.string   "IC"
+    t.string   "ic"
     t.decimal  "rewards",       precision: 8, scale: 2, default: 0.0
     t.string   "status"
   end
@@ -92,6 +92,8 @@ ActiveRecord::Schema.define(version: 20140913181853) do
     t.integer  "sale_id"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.decimal  "cost",        precision: 8, scale: 2
+    t.decimal  "total_cost",  precision: 8, scale: 2
   end
 
   create_table "payments", force: true do |t|
@@ -116,6 +118,8 @@ ActiveRecord::Schema.define(version: 20140913181853) do
     t.integer  "user_id"
     t.decimal  "rewards_earned",   precision: 8, scale: 2, default: 0.0
     t.decimal  "rewards_used",     precision: 8, scale: 2, default: 0.0
+    t.decimal  "cost",             precision: 8, scale: 2, default: 0.0
+    t.boolean  "is_final",                                 default: false
   end
 
   create_table "stores", force: true do |t|

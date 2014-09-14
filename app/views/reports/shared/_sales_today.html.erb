@@ -1,0 +1,14 @@
+<div class="panel-body">
+	<p>
+		<label>Number of Sales:</label> <%= sales_count_today(:store) %>
+	</p>
+	<p>
+		<label>Revenue:</label> <%= number_to_currency sales_today(:store) %>
+	</p>
+	<p>
+		<label>Cost:</label> <%= number_to_currency sales_cost_today(:store) %>
+	</p>
+	<p>
+		<label>Profit:</label> <%= number_to_currency sales_profit_today(:store) %>
+	</p>
+</div>

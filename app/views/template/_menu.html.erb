@@ -12,13 +12,16 @@
 		<div class="navbar-collapse collapse">
 			<ul class="nav navbar-nav">
 				<li>
-					<a href="<%= customers_path%>"><%= t('menu.customers')%></a>
+					<a href="<%= customers_path%>"><span class=" glyphicon glyphicon-user"></span> <%= t('menu.customers')%></a>
 				</li>
 				<li>
-					<a href="<%= sales_path%>"><%= t('menu.sales')%></a>
+					<a href="<%= sales_path%>"> <span class=" glyphicon glyphicon-usd"></span> <%= t('menu.sales')%></a>
+				</li>
+				<li>
+					<a href="<%= reports_path%>"><span class="glyphicon glyphicon-stats"></span> <%= t('menu.reports')%></a>
 				</li>
 				<li class="dropdown">
-					<a class="dropdown-toggle" data-toggle="dropdown" href="#"><%= t('menu.items')%><b class="caret"></b></a>
+					<a class="dropdown-toggle" data-toggle="dropdown" href="#"><span class="glyphicon glyphicon-barcode"></span> <%= t('menu.items')%> <b class="caret"></b></a>
 					<ul class="dropdown-menu">
 						<li>
 							<a href="<%= items_path%>"><%= t('menu.items')%></a>
@@ -32,9 +35,7 @@
 						<li>
 							<a href="<%= users_path%>"><span class="glyphicon glyphicon-user"></span> <%= t('menu.users')%></a>
 						</li>
-						<li>
-							<a href="<%= reports_path%>"><span class="glyphicon glyphicon-stats"></span> <%= t('menu.reports')%></a>
-						</li>
+
 						<li>
 							<%if current_user.is? :superadmin%>
 							<a href="/stores"><span class="glyphicon glyphicon-adjust"></span> <%= t('menu.stores')%></a>
