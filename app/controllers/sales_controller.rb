@@ -1,5 +1,11 @@
 class SalesController < ApplicationController
+
+  load_and_authorize_resource
+  skip_authorize_resource :only => [:new, :create]
+  
   def index
+    authorize! :index, Sale
+
     if current_user.is? :superadmin
       @sales = Sale.all.paginate(:page => params[:page], :per_page => 20, :order => 'id DESC')
     elsif current_user.is? :storeadmin
@@ -148,7 +154,7 @@ class SalesController < ApplicationController
     line_item = LineItem.where(:sale_id => params[:sale_id], :item_id => params[:item_id]).first
     line_item.quantity -= 1
     if line_item.quantity <= 0
-      line_item.destroy
+    line_item.destroy
     else
       line_item.save
       update_line_item_totals(line_item)
@@ -186,8 +192,7 @@ class SalesController < ApplicationController
 
     set_sale
     populate_items
-    
-    
+
   end
 
   def create_custom_item

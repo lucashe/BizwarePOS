@@ -1,8 +1,13 @@
 class CustomersController < ApplicationController
+  load_and_authorize_resource
+  skip_authorize_resource :only => [:new, :create]
+
   before_action :set_customer, only: [:show, :edit, :update, :destroy]
   # GET /customers
   # GET /customers.json
   def index
+    authorize! :index, Customer
+
     if current_user.is? :superadmin
       @customers = Customer.paginate(:page => params[:page], :per_page => 20).where(:published => true)
     else
@@ -76,6 +81,6 @@ class CustomersController < ApplicationController
 
   # Never trust parameters from the scary internet, only allow the white list through.
   def customer_params
-    params.require(:customer).permit(:first_name, :last_name, :phone_number, :email_address, :address, :city, :state, :zip, :published, :rewards, :IC)
+    params.require(:customer).permit(:first_name, :last_name, :phone_number, :email_address, :address, :city, :state, :zip, :published, :rewards, :ic)
   end
 end

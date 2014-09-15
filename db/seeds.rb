@@ -6,8 +6,6 @@
 #   cities = City.create([{ name: 'Chicago' }, { name: 'Copenhagen' }])
 #   Mayor.create(name: 'Emanuel', city: cities.first)
 
+User.create!(:email => 'admin@example.com', :username => 'admin', :password => 'password', :password_confirmation => 'password', :can_update_users => true, :can_update_items => true,
+              :can_update_configuration => true, :can_view_reports => true, :can_update_sale_discount => true, :can_remove_sales => true, :role => 'superadmin')
 
-
-for i in (1..2000)
-	Item.create(:sku => i, :name => "#{i}Name", :price => "12.00", :stock_amount => "100")
-end

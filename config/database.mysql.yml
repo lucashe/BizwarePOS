@@ -15,8 +15,8 @@ test:
   timeout: 5000
  
 production:
-  adapter: mysql
+  adapter: postgresql
   database: rails
-  username: rails
-  password: lZ106dShJo
+  username: postgres
+  password: postgres
   host: localhost

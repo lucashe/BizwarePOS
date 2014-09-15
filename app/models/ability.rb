@@ -2,21 +2,41 @@ class Ability
   include CanCan::Ability
   def initialize(user)
 
-    if user.is? :superadmin
+    if user.is_exact? :superadmin
       can :manage, Store
       can :manage, Branch
       can :manage, User
     end
 
-    if user.is? :storeadmin
-      can :edit, Store
-      can :update, Store
-      can :manage, Branch
-      can :manage, User
+    if user.is_exact? :storeadmin
+      can :edit, Store do |s|
+        user.store.id == s.id
+      end
+      can :update, Store do |s|
+        user.store.id == s.id
+      end
+      can :manage, Branch do |b|
+        user.store.id == b.store_id
+      end
+      can :manage, User do |u|
+      (not u.role == "superadmin") && user.store.id == u.store.id
+      end
+      can :manage, Customer do |cu|
+        user.store.id == cu.store.id
+      end
+      can :manage, ItemCategory do |ic|
+        user.store.id == ic.store.id
+      end
+      can :manage, Item do |i|
+        user.store.id == i.store.id
+      end
+      can :manage, Sale do |s|
+        user.store.id == s.branch.store.id
+      end
     end
-    
+
     if user.can_update_users == true
-      #can :manage, User
+    #can :manage, User
     end
 
     if user.can_view_reports == true

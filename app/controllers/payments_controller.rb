@@ -1,4 +1,5 @@
 class PaymentsController < ApplicationController
+  
   def make_payment
     @sale = Sale.find(params[:sale_id])
     @sale.is_final = true
@@ -20,7 +21,7 @@ class PaymentsController < ApplicationController
 
   private
 
-# def payment_params
-# params.require(:payment).permit(:payment_type, :amount, :sale_id)
-# end
+  # def payment_params
+  # params.require(:payment).permit(:payment_type, :amount, :sale_id)
+  # end
 end

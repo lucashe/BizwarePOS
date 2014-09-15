@@ -11,6 +11,7 @@ gem 'will_paginate-bootstrap'
 gem 'uglifier', '>= 1.3.0'
 gem 'coffee-rails', '~> 4.0.0'
 gem 'turbolinks'
+gem 'kaminari'
 
 gem 'jquery-rails'
 gem 'jquery-ui-rails'
@@ -28,20 +29,20 @@ group :doc do
 end
 
 group :production do
-  gem 'mysql'
+  gem 'pg'
 end
 
 group :development do
   gem 'better_errors'
   gem 'binding_of_caller'
   gem 'debugger'
-  gem 'pg'
+  gem 'sqlite3'
 end
 
 group :test do
   gem 'capybara'
   gem 'rspec-rails'
-  gem 'pg'
+  gem 'sqlite3'
 end
 
 gem 'simple_form'

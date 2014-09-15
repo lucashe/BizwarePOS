@@ -1,8 +1,13 @@
 class ItemCategoriesController < ApplicationController
+  load_and_authorize_resource
+  skip_authorize_resource :only => [:new, :create]
+  
   before_action :set_item_category, only: [:show, :edit, :update, :destroy]
   # GET /item_categories
   # GET /item_categories.json
   def index
+    authorize! :index, ItemCategory
+
     @item_categories = @current_store.item_categories.paginate(:page => params[:page], :per_page => 20)
   end
 
@@ -53,7 +58,7 @@ class ItemCategoriesController < ApplicationController
   # DELETE /item_categories/1
   # DELETE /item_categories/1.json
   def destroy
-    @item_category.destro
+    @item_category.destory
     respond_to do |format|
       format.html { redirect_to item_categories_path }
       format.json { head :no_content }

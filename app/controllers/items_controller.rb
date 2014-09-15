@@ -1,8 +1,13 @@
 class ItemsController < ApplicationController
+  load_and_authorize_resource
+  skip_authorize_resource :only => [:new, :create]
+
   before_action :set_item, only: [:show, :edit, :update, :destroy]
   # GET /items
   # GET /items.json
   def index
+    authorize! :index, Item
+        
     @items = @current_store.items.paginate(:page => params[:page], :per_page => 20).where(:published => true)
   end
 
@@ -80,7 +85,7 @@ class ItemsController < ApplicationController
   # Use callbacks to share common setup or constraints between actions.
   def set_item
     @item = Item.find(params[:id])
-    @categories = ItemCategory.find(:all)
+    #@categories = @current_store.item_categories.all
   end
 
   # Never trust parameters from the scary internet, only allow the white list through.

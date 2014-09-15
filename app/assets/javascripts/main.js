@@ -109,9 +109,6 @@ $(document).ready(function() {
 
 	$("#new_item").validate({
 		rules : {
-			"item[sku]" : {
-				required : true
-			},
 			"item[name]" : {
 				required : true
 			},

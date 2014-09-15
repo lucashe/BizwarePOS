@@ -8,9 +8,12 @@ class DashboardController < ApplicationController
   end
 
   def switch_branch
-    @current_branch_id = params[:switch_branch_to]
-    session[:current_branch_id] = @current_branch_id
-    @current_branch = Branch.find(@current_branch_id)
+
+    if not params[:switch_branch_to].blank?
+      @current_branch_id = params[:switch_branch_to]
+      session[:current_branch_id] = @current_branch_id
+      @current_branch = Branch.find(@current_branch_id)
+    end
 
     # Go to dashboard
     prepare_data
@@ -48,10 +51,10 @@ class DashboardController < ApplicationController
     if current_user.is? :superadmin
       elsif current_user.is? :storeadmin
         @recent_sales = @current_store.sales.find(:all, :limit => 10, :order => 'id DESC')
-        @popular_items = @current_store.items.joins(:branch_items).select("item_id as id,name,sum(stock_amount) as stock_amount,sum(amount_sold) as amount_sold").group("name,item_id").find(:all, :limit => 10, :order => 'amount_sold DESC')
+        @popular_items = @current_store.items.where("published=true").joins(:branch_items).select("item_id as id,name,sum(stock_amount) as stock_amount,sum(amount_sold) as amount_sold").group("name,item_id").find(:all, :limit => 10, :order => 'amount_sold DESC')
       elsif current_user.is? :branchadmin
         @recent_sales = @current_branch.sales.find(:all, :limit => 10, :order => 'id DESC')
-        @popular_items = @current_branch.items.joins(:branch_items).select("item_id as id,name,sum(stock_amount) as stock_amount,sum(amount_sold) as amount_sold").group("name,item_id").find(:all, :limit => 10, :order => 'amount_sold DESC')
+        @popular_items = @current_branch.items.where("published=true").joins(:branch_items).select("item_id as id,name,sum(stock_amount) as stock_amount,sum(amount_sold) as amount_sold").group("name,item_id").find(:all, :limit => 10, :order => 'amount_sold DESC')
       elsif current_user.is? :staff
 
       end

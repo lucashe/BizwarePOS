@@ -1,15 +1,18 @@
 class BranchesController < ApplicationController
+  load_and_authorize_resource
+  skip_authorize_resource :only => [:new, :create]
+
   before_action :set_branch, only: [:show, :edit, :update, :destroy]
   # GET /branches
   # GET /branches.json
   def index
+    authorize! :index, Branch
+
     if current_user.is?(:superadmin)
       @branches = Branch.all.paginate(:page => params[:page], :per_page => 20, :order => 'id DESC')
     else
       @branches = @current_store.branches.paginate(:page => params[:page], :per_page => 20, :order => 'id DESC')
     end
-
-    authorize! :index, Branch
 
   end
 
@@ -21,7 +24,7 @@ class BranchesController < ApplicationController
   # GET /branches/new
   def new
     @branch = Branch.new
-    
+
     if not params[:preset_store_id].nil?
       @branch.store_id = params[:preset_store_id]
     end
@@ -52,8 +55,6 @@ class BranchesController < ApplicationController
   # PATCH/PUT /branches/1.json
   def update
 
-    authorize! :update, Branch
-
     respond_to do |format|
       if @branch.update(branch_params)
         format.html { redirect_to branches_path, notice: 'Store branch was successfully updated.' }
@@ -69,6 +70,7 @@ class BranchesController < ApplicationController
   # DELETE /branches/1.json
   def destroy
     @branch.destroy
+
     respond_to do |format|
       format.html { redirect_to branches_url }
       format.json { head :no_content }

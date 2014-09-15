@@ -3,7 +3,7 @@ class User < ActiveRecord::Base
   # :confirmable, :lockable, :timeoutable and :omniauthable
   devise :database_authenticatable,
          :recoverable, :rememberable, :trackable, :validatable
-         
+
   validates :username, :presence => true, :uniqueness => true
 
   has_many :user_employments
@@ -16,6 +16,10 @@ class User < ActiveRecord::Base
   ROLE_NAMES = %w[Staff Branch_Mgr Store_Mgr superadmin]
   def is?(base_role)
     ROLES.index(base_role.to_s) <= ROLES.index(role)
+  end
+
+  def is_exact?(base_role)
+    role == base_role.to_s
   end
 
   def role_name

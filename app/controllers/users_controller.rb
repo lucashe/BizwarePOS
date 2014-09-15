@@ -1,14 +1,18 @@
 class UsersController < ApplicationController
+  load_and_authorize_resource
+  skip_authorize_resource :only => [:new, :create]
+
   before_action :set_user, only: [:show, :edit, :update, :destroy]
   # GET /users
   # GET /users.json
   def index
+    authorize! :index, User
+
     if current_user.is?(:superadmin)
       @users = User.paginate(:page => params[:page], :per_page => 20)
     else
       @users = @current_store.users.paginate(:page => params[:page], :per_page => 20)
     end
-
   end
 
   # GET /users/1
@@ -54,7 +58,7 @@ class UsersController < ApplicationController
 
     respond_to do |format|
       if @user.save
-        format.html { redirect_to @user, notice: 'user was successfully created.' }
+        format.html { redirect_to users_path, notice: 'user was successfully created.' }
         format.json { render action: 'show', status: :created, location: @user }
       else
         format.html { render action: 'new' }
@@ -64,27 +68,26 @@ class UsersController < ApplicationController
   end
 
   def update_store_select
-
     @branches_select = Branch.where(:store_id => params[:store_select_id])
     render :partial => "branch"
-
   end
 
   # PATCH/PUT /users/1
   # PATCH/PUT /users/1.json
   def update
     if user_params[:password].blank?
-      user_params.delete("password")
-      user_params.delete("password_confirmation")
+      params[:user].delete("password")
+      params[:user].delete("password_confirmation")
     end
-
+    
     respond_to do |format|
+
       if @user.update(user_params)
 
         # Prevent user to be logged out after update
         # sign_in(@user, :bypass => true)
 
-        format.html { redirect_to @user, notice: 'user was successfully updated.' }
+        format.html { redirect_to users_path, notice: 'user was successfully updated.' }
         format.json { head :no_content }
       else
         format.html { render action: 'edit' }
