@@ -2,18 +2,17 @@ class SalesController < ApplicationController
 
   load_and_authorize_resource
   skip_authorize_resource :only => [:new, :create]
-  
   def index
     authorize! :index, Sale
 
     if current_user.is? :superadmin
-      @sales = Sale.all.paginate(:page => params[:page], :per_page => 20, :order => 'id DESC')
+      @sales = Sale.page(params[:page]).per(20).order('id DESC')
     elsif current_user.is? :storeadmin
-      @sales = @current_store.sales.paginate(:page => params[:page], :per_page => 20, :order => 'id DESC')
+      @sales = @current_store.sales.page(params[:page]).per(20).order('id DESC')
     elsif current_user.is? :branchadmin
-      @sales = @current_branch.sales.paginate(:page => params[:page], :per_page => 20, :order => 'id DESC')
-    elsif current_user.is? :straff
-      @sales = current_user.sales.paginate(:page => params[:page], :per_page => 20, :order => 'id DESC')
+      @sales = @current_branch.sales.page(params[:page]).per(20).order('id DESC')
+    elsif current_user.is? :staff
+      @sales = current_user.sales.page(params[:page]).per(20).order('id DESC')
     end
   end
 
@@ -401,7 +400,7 @@ class SalesController < ApplicationController
   end
 
   def populate_items
-    @available_items = @current_store.items.where('published = true').paginate(:page => params[:page], :per_page => 20)
+    @available_items = @current_store.items.where('published = true').page(params[:page]).per(20)
   end
 
   def populate_customers

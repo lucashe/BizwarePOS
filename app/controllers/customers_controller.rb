@@ -9,9 +9,9 @@ class CustomersController < ApplicationController
     authorize! :index, Customer
 
     if current_user.is? :superadmin
-      @customers = Customer.paginate(:page => params[:page], :per_page => 20).where(:published => true)
+      @customers = Customer.where(:published => true).page(params[:page]).per(20)
     else
-      @customers = @current_store.customers.paginate(:page => params[:page], :per_page => 20).where(:published => true)
+      @customers = @current_store.customers.where(:published => true).page(params[:page]).per(20)
     end
   end
 

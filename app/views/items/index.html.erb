@@ -1,39 +1,28 @@
-<div class="panel panel-default">
-	<div class="table-responsive">
-		<table class="table table-striped table-bordered table-hover">
-			<thead>
-				<tr>
-					<th>#</th>
-					<th>Category</th>
-					<th>Product</th>
-					<th>Sold</th>
-					<th>Available</th>
-					<th>Price</th>
-					<th>Actions</th>
-				</tr>
-			</thead>
-
-			<tbody>
-				<% @items.each do |item| %>
-				<tr class="<%= get_store_stock_amount(@current_store, item) > 0 ? '' : 'danger' %>">
-					<td><%= item.sku %></td>
-					<td><%= item.item_category.blank? ? '-' : item.item_category.name %></td>
-					<td><%= item.name %></td>
-					<td><%= get_store_amount_sold(@current_store, item) %></td>
-					<td><%= get_store_stock_amount(@current_store, item) %></td>
-					<td><%= number_to_currency item.price %></td>
-					<td><%= link_to 'Edit', edit_item_path(item) %> | <%= link_to 'Remove', item, method: :delete, data: { confirm: 'Are you sure?' } %></td>
-				</tr>
-				<% end %>
-			</tbody>
-		</table>
-		<div class="panel-body">
-			<%= will_paginate @items, renderer: BootstrapPagination::Rails %>
+<%= form_for @filterrific do |f| %>
+<div class="well well-sm">
+	<div class="row">
+		<div class="col-sm-3"  >
+			Search
+			<%= f.text_field(
+			:search_query,
+			class: 'filterrific-periodically-observed form-control'
+			) %>
+		</div>
+		<div class="col-sm-3" >
+			Category
+			<%= f.select(
+			:with_item_category_id,
+			@current_store.item_categories.options_for_select,
+			{ include_blank: '- Any -' },
+			class: 'form-control'
+			) %>
 		</div>
 	</div>
 </div>
-</div>
 
-<div class="col-sm-12">
-	<%= link_to 'New Item', new_item_path, :class => "btn btn-success btn-lg active" %>
-</div>
+<% end %>
+
+<%= render(
+partial: 'items/list',
+locals: { items: @items}
+) %>

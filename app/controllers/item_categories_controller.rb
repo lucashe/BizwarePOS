@@ -1,14 +1,14 @@
 class ItemCategoriesController < ApplicationController
   load_and_authorize_resource
   skip_authorize_resource :only => [:new, :create]
-  
+
   before_action :set_item_category, only: [:show, :edit, :update, :destroy]
   # GET /item_categories
   # GET /item_categories.json
   def index
     authorize! :index, ItemCategory
 
-    @item_categories = @current_store.item_categories.paginate(:page => params[:page], :per_page => 20)
+    @item_categories = @current_store.item_categories.page(params[:page]).per(20)
   end
 
   # GET /item_categories/1

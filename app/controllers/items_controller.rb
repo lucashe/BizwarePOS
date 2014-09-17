@@ -3,12 +3,27 @@ class ItemsController < ApplicationController
   skip_authorize_resource :only => [:new, :create]
 
   before_action :set_item, only: [:show, :edit, :update, :destroy]
+  
   # GET /items
   # GET /items.json
   def index
     authorize! :index, Item
-        
-    @items = @current_store.items.paginate(:page => params[:page], :per_page => 20).where(:published => true)
+    
+     @filterrific = Filterrific.new(Item, params[:filterrific] || session[:filterrific_items] )
+     @items = Item.filterrific_find(@filterrific).where("store_id = ? AND published = true", @current_store_id).page(params[:page]).per(20)
+     session[:filterrific_items] = @filterrific.to_hash
+
+     respond_to do |format|
+      format.html
+      format.js
+     end
+    
+    #@items = @current_store.items.paginate(:page => params[:page], :per_page => 20).where(:published => true)
+  end
+  
+  def reset_filterrific
+    session[:filterrific_items] = nil
+    redirect_to :action => :index
   end
 
   # GET /items/1
@@ -61,6 +76,7 @@ class ItemsController < ApplicationController
         format.json { render json: @item.errors, status: :unprocessable_entity }
       end
     end
+    
   end
 
   # DELETE /items/1
