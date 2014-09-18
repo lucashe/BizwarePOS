@@ -9,9 +9,9 @@ class UsersController < ApplicationController
     authorize! :index, User
 
     if current_user.is?(:superadmin)
-      @users = User.paginate(:page => params[:page], :per_page => 20)
+      @users = User.page(params[:page]).per(20)
     else
-      @users = @current_store.users.paginate(:page => params[:page], :per_page => 20)
+      @users = @current_store.users.page(params[:page]).per(20)
     end
   end
 
@@ -79,7 +79,7 @@ class UsersController < ApplicationController
       params[:user].delete("password")
       params[:user].delete("password_confirmation")
     end
-    
+
     respond_to do |format|
 
       if @user.update(user_params)

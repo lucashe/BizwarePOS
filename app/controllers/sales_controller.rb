@@ -59,23 +59,23 @@ class SalesController < ApplicationController
     populate_items
 
     if params[:search].blank?
-      @available_items = @current_store.items.where('published = true').paginate(:page => params[:page], :per_page => 20)
+      @available_items = @current_store.items.where('published = true').page(params[:page]).per(20)
     else
       if params[:search][:item_category].blank?
         # Search by item name
-        @available_items = @current_store.items.where('name ILIKE ? AND published = true OR description ILIKE ? AND published = true OR sku ILIKE ? AND published = true', "%#{params[:search][:item_name]}%", "%#{params[:search][:item_name]}%", "%#{params[:search][:item_name]}%").paginate(:page => params[:page], :per_page => 20)
+        @available_items = @current_store.items.where('name ILIKE ? AND published = true OR description ILIKE ? AND published = true OR sku ILIKE ? AND published = true', "%#{params[:search][:item_name]}%", "%#{params[:search][:item_name]}%", "%#{params[:search][:item_name]}%").page(params[:page]).per(20)
       elsif params[:search][:item_name].blank?
         # Search by item category
         if params[:search][:item_category].to_s == '-1'
           # Show all
-          @available_items = @current_store.items.where('published = true').paginate(:page => params[:page], :per_page => 20)
+          @available_items = @current_store.items.where('published = true').page(params[:page]).per(20)
         else
         # Show specific category
-          @available_items = @current_store.items.where('item_category_id = ? AND published = true', "#{params[:search][:item_category]}").paginate(:page => params[:page], :per_page => 20)
+          @available_items = @current_store.items.where('item_category_id = ? AND published = true', "#{params[:search][:item_category]}").page(params[:page]).per(20)
         end
       else
       # Search by both
-        @available_items = @current_store.items.where('name ILIKE ? AND published = true AND item_category_id = ? OR description ILIKE ? AND published = true AND item_category_id = ? OR sku ILIKE ? AND published = true AND item_category_id = ?', "%#{params[:search][:item_name]}%", "#{params[:search][:item_category]}", "%#{params[:search][:item_name]}%", "#{params[:search][:item_category]}", "%#{params[:search][:item_name]}%", "#{params[:search][:item_category]}").paginate(:page => params[:page], :per_page => 20)
+        @available_items = @current_store.items.where('name ILIKE ? AND published = true AND item_category_id = ? OR description ILIKE ? AND published = true AND item_category_id = ? OR sku ILIKE ? AND published = true AND item_category_id = ?', "%#{params[:search][:item_name]}%", "#{params[:search][:item_category]}", "%#{params[:search][:item_name]}%", "#{params[:search][:item_category]}", "%#{params[:search][:item_name]}%", "#{params[:search][:item_category]}").page(params[:page]).per(20)
       end
 
     end

@@ -14,10 +14,9 @@ class Item < ActiveRecord::Base
   validates :name, :presence => true
   validates :price, :presence => true
 
-  default_scope :order => 'id ASC'
-
   filterrific(
     filter_names: [
+      :sorted_by,
       :search_query,
       :with_item_category_id
     ]
@@ -51,6 +50,21 @@ class Item < ActiveRecord::Base
     where(:item_category_id => [*item_category_ids])
   }
 
-#delegate :name, :to => :item_category, :prefix => true
+  scope :sorted_by, lambda { |sort_option|
+    # extract the sort direction from the param value.
+    direction = (sort_option =~ /desc$/) ? 'desc' : 'asc'
+    case sort_option.to_s
+    when /^name_/
+      order("LOWER(items.name) #{ direction }")
+    else
+      raise(ArgumentError, "Invalid sort option: #{ sort_option.inspect }")
+    end
+  }
+  def self.options_for_sorted_by
+    [
+      ['Product (a-z)', 'name_asc'],
+      ['Product (z-a)', 'name_desc']
+    ]
+  end
 
 end

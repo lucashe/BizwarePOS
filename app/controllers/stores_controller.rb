@@ -3,13 +3,11 @@ class StoresController < ApplicationController
   load_and_authorize_resource
 
   before_action :set_store, only: [:show, :edit, :update, :destroy]
-  
-  
   def index
     authorize! :index, Store
-    
+
     if current_user.is?(:superadmin)
-      @stores = Store.all.paginate(:page => params[:page], :per_page => 20, :order => 'id DESC')
+      @stores = Store.page(params[:page]).per(20).order('id DESC')
     end
 
   end
@@ -31,7 +29,7 @@ class StoresController < ApplicationController
   end
 
   def create
-    
+
     @store = Store.new(store_params)
 
     respond_to do |format|

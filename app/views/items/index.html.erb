@@ -17,6 +17,14 @@
 			class: 'form-control'
 			) %>
 		</div>
+		<div class="col-sm-3" >
+			Sorted by
+			<%= f.select(:sorted_by,
+			Item.options_for_sorted_by,
+			{},
+			class: 'form-control') %>
+		</div>
+
 	</div>
 </div>
 

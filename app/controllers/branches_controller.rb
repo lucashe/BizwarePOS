@@ -9,9 +9,9 @@ class BranchesController < ApplicationController
     authorize! :index, Branch
 
     if current_user.is?(:superadmin)
-      @branches = Branch.all.paginate(:page => params[:page], :per_page => 20, :order => 'id DESC')
+      @branches = Branch.page(params[:page]).per(20).order('id DESC')
     else
-      @branches = @current_store.branches.paginate(:page => params[:page], :per_page => 20, :order => 'id DESC')
+      @branches = @current_store.branches.page(params[:page]).per(20).order('id DESC')
     end
 
   end

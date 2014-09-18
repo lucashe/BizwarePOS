@@ -9,9 +9,11 @@ class ItemsController < ApplicationController
   def index
     authorize! :index, Item
     
-     @filterrific = Filterrific.new(Item, params[:filterrific] || session[:filterrific_items] )
+     #@filterrific = Filterrific.new(Item, params[:filterrific] || session[:filterrific_items] )
+     @filterrific = Filterrific.new(Item, params[:filterrific])
      @items = Item.filterrific_find(@filterrific).where("store_id = ? AND published = true", @current_store_id).page(params[:page]).per(20)
-     session[:filterrific_items] = @filterrific.to_hash
+     
+     #session[:filterrific_items] = @filterrific.to_hash
 
      respond_to do |format|
       format.html
@@ -22,7 +24,7 @@ class ItemsController < ApplicationController
   end
   
   def reset_filterrific
-    session[:filterrific_items] = nil
+    #session[:filterrific_items] = nil
     redirect_to :action => :index
   end
 

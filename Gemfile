@@ -7,7 +7,6 @@ gem 'cancancan', '~> 1.7'
 gem 'jbuilder', '~> 1.2'
 
 gem "twitter-bootstrap-rails"
-#gem 'will_paginate-bootstrap'
 gem 'uglifier', '>= 1.3.0'
 gem 'coffee-rails', '~> 4.0.0'
 gem 'turbolinks'
