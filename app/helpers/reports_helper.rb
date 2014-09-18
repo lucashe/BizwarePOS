@@ -1,4 +1,5 @@
 module ReportsHelper
+  
   def get_sales(scope, startDate, endDate)
 
     if scope == :store

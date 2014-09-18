@@ -1,8 +1,8 @@
 <% if user_signed_in? %>
 <% if current_user.is? :superadmin%>
-	<%= render :partial => 'logged_in_superadmin' %>
+<%= render :partial => 'logged_in_superadmin' %>
 <%else%>
-	<%= render :partial => 'logged_in' %>
+<%= render :partial => 'logged_in' %>
 <%end%>
 
 <% else %>

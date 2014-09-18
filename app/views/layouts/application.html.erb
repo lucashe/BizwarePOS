@@ -22,7 +22,10 @@
 	<body>
 
 		<% if user_signed_in? %>
-		<%= render :partial => 'template/menu' %>
+		<% if current_user.is? :superadmin%>
+		<%= render :partial => 'template/superadmin_menu' %>
+		<%else%>
+		<%= render :partial => 'template/menu' %><%end%>
 		<% end %>
 
 		<div class="pos_wrapper">

@@ -4,8 +4,8 @@
 			<thead>
 				<tr>
 					<th>Store Name</th>
-					<th>Store Description</th>
-					<th></th>
+					<th>Description</th>
+					<th>Action</th>
 				</tr>
 			</thead>
 
@@ -22,7 +22,7 @@
 			</tbody>
 		</table>
 		<div class="panel-body">
-			<%= will_paginate @stores, renderer: BootstrapPagination::Rails %>
+			<%= paginate @stores %>
 		</div>
 	</div>
 </div>

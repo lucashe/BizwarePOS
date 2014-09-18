@@ -1,0 +1,45 @@
+<div class="navbar navbar-default navbar-fixed-top" role="navigation">
+	<div class="container">
+		<div class="navbar-header">
+			<button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+				<span class="sr-only">Toggle navigation</span>
+				<span class="icon-bar"></span>
+				<span class="icon-bar"></span>
+				<span class="icon-bar"></span>
+			</button>
+			<a class="navbar-brand" href="<%= root_path%>"><span class="glyphicon glyphicon-home"></span></a>
+		</div>
+		<div class="navbar-collapse collapse">
+			<ul class="nav navbar-nav">
+				<li>
+
+					<a href="/stores"><span class="glyphicon glyphicon-adjust"></span> <%= t('menu.stores')%></a>
+
+				</li>
+				<li>
+					<a href="<%= branches_path%>"><span class="glyphicon glyphicon-adjust"></span> <%= t('menu.branches')%></a>
+				</li>
+				<li>
+					<a href="<%= users_path%>"><span class="glyphicon glyphicon-user"></span> <%= t('menu.users')%></a>
+				</li>
+
+			</ul>
+
+			<ul class="nav navbar-nav navbar-right">
+
+				<li>
+					<% if I18n.locale == I18n.default_locale %>
+					<%= link_to "简体中文", :locale=>'zh-CN'%>
+					<% else %>
+					<%= link_to "English", :locale=>'en'%>
+					<%end%>
+				</li>
+				<li>
+					<%= link_to(destroy_user_session_path, :method => :delete) do %>
+					<span class="glyphicon glyphicon-remove-circle"></span>
+					<% end %>
+				</li>
+			</ul>
+		</div>
+	</div>
+</div>
