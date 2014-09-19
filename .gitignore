@@ -80,3 +80,7 @@ pickle-email-*.html
 
 # Ignore application configuration
 /config/application.yml
+
+# Ignore Capistrano
+/config/deploy.rb
+/config/deploy/*
