@@ -20,8 +20,6 @@ gem 'sass-rails', '>= 3.2'
 gem 'autoprefixer-rails'
 
 gem 'filterrific'
-#gem "chartkick"
-#gem 'groupdate'
 
 group :doc do
 # bundle exec rake doc:rails generates the API under doc/api.
@@ -29,9 +27,7 @@ group :doc do
 end
 
 group :production do
-  gem 'rails_12factor'
   gem 'pg'
-  #gem 'mysql2'
 end
 
 group :development do
