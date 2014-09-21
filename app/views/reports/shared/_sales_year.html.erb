@@ -1,3 +1,14 @@
 <div class="panel-body">
-	Sales: <%= number_to_currency sales_year(:store) %>
+	<p>
+		<label>Number of Sales:</label> <%= sales_count_year(:store) %>
+	</p>
+	<p>
+		<label>Revenue:</label> <%= number_to_currency sales_year(:store) %>
+	</p>
+	<p>
+		<label>Cost:</label> <%= number_to_currency sales_cost_year(:store) %>
+	</p>
+	<p>
+		<label>Profit:</label> <%= number_to_currency sales_profit_year(:store) %>
+	</p>
 </div>

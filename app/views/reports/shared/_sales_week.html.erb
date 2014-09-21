@@ -1,3 +1,14 @@
 <div class="panel-body">
-	Sales: <%= number_to_currency sales_week(:store) %>
+	<p>
+		<label>Number of Sales:</label> <%= sales_count_week(:store) %>
+	</p>
+	<p>
+		<label>Revenue:</label> <%= number_to_currency sales_week(:store) %>
+	</p>
+	<p>
+		<label>Cost:</label> <%= number_to_currency sales_cost_week(:store) %>
+	</p>
+	<p>
+		<label>Profit:</label> <%= number_to_currency sales_profit_week(:store) %>
+	</p>
 </div>

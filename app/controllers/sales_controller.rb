@@ -442,9 +442,9 @@ class SalesController < ApplicationController
   def get_popular_items
     if current_user.is? :superadmin
       elsif current_user.is? :storeadmin
-        @popular_items = @current_store.items.joins(:branch_items).select("item_id as id,name,sum(stock_amount) as stock_amount,sum(amount_sold) as amount_sold").group("name,item_id").find(:all, :limit => 10, :order => 'amount_sold DESC')
+        @popular_items = @current_store.items.where('published=true').joins(:branch_items).select("item_id as id,name,sum(stock_amount) as stock_amount,sum(amount_sold) as amount_sold").group("name,item_id").find(:all, :limit => 10, :order => 'amount_sold DESC')
       elsif current_user.is? :branchadmin
-        @popular_items = @current_branch.items.joins(:branch_items).select("item_id as id,name,sum(stock_amount) as stock_amount,sum(amount_sold) as amount_sold").group("name,item_id").find(:all, :limit => 10, :order => 'amount_sold DESC')
+        @popular_items = @current_branch.items.where('published=true').joins(:branch_items).select("item_id as id,name,sum(stock_amount) as stock_amount,sum(amount_sold) as amount_sold").group("name,item_id").find(:all, :limit => 10, :order => 'amount_sold DESC')
       elsif current_user.is? :staff
       end
   end

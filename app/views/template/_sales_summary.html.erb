@@ -1,8 +1,11 @@
 <div class="panel-body">
-	Sales: <%= number_to_currency get_sales_total(:store,nil,nil) %>
-	<br />
-	Paid: <%= number_to_currency get_payments_total(:store,nil,nil) %>
-	<br />
-	<%= get_owed_balance(:store,nil,nil) >= 0 ? "Owed: " : "Owe: " %><%= number_to_currency(get_owed_balance(:store,nil,nil)) %>
+
+	<label>Number of Sales:</label> <%= sales_count_today(:store) %>
+	<br/>
+	<label>Revenue:</label> <%= number_to_currency sales_today(:store) %>
+	<br/>
+	<label>Cost:</label> <%= number_to_currency sales_cost_today(:store) %>
+	<br/>
+	<label>Profit:</label> <%= number_to_currency sales_profit_today(:store) %>
 
 </div>
