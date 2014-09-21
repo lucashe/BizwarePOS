@@ -31,3 +31,5 @@ en:
     stores: "Stores"
     branches: "Branches"
     new_sale: "New Sale"
+    store_login: "Store Login"
+    memeber_login: "Memember_Login"

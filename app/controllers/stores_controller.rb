@@ -31,7 +31,6 @@ class StoresController < ApplicationController
   def create
 
     @store = Store.new(store_params)
-
     respond_to do |format|
       if @store.save
         format.html { redirect_to @store, notice: 'Store was successfully created.' }

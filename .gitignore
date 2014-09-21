@@ -85,3 +85,6 @@ pickle-email-*.html
 # Ignore Capistrano
 /config/deploy.rb
 /config/deploy/*
+
+# Ignore tmp upload files
+/public/uploads/tmp/*

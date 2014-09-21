@@ -1,0 +1,21 @@
+<%= simple_form_for(resource, as: resource_name, url: session_path(resource_name),
+:html => { :class => "form-signin", :role => "form" }) do |f| %>
+
+<div class="form-group">
+	<%= f.text_field :username, autofocus: true, :class => 'form-control', :placeholder => 'User Name' %>
+	<%= f.password_field :password, :class => 'form-control', :placeholder => 'Password' %>
+</div>
+
+<div class="form-group">
+	<%= f.input :remember_me, as: :boolean if devise_mapping.rememberable? %>
+</div>
+
+<div class="form-group">
+	<button class="btn btn-lg btn-primary btn-block" value="Sign in" type="submit">
+		Sign in
+	</button>
+	<%= render "users/shared/links" %>
+</div>
+<%= render "template/footer" %>
+<% end %>
+

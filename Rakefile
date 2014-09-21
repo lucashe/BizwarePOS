@@ -3,4 +3,4 @@
 
 require File.expand_path('../config/application', __FILE__)
 
-PushvendorPos::Application.load_tasks
+BizwarePOS::Application.load_tasks

@@ -1,77 +1,87 @@
-PushvendorPos::Application.routes.draw do
+BizwarePOS::Application.routes.draw do
 
-  resources :item_categories
+  get '/home' => 'static_pages#home'
+  get '/admin' => 'dashboard#index'
+  root  'dashboard#index'
 
-  resources :reports do
-    collection do
-      get 'total_report'
-      get 'date_range_report'
-      get 'customer_report'
-      get 'item_report'
+  devise_for :members
+
+  scope "/admin" do
+
+    resources :item_categories
+
+    resources :reports do
+      collection do
+        get 'total_report'
+        get 'date_range_report'
+        get 'customer_report'
+        get 'item_report'
+      end
     end
-  end
 
-  resources :line_items
+    resources :line_items
 
-  resources :payments do
-    collection do
-      get 'make_payment'
+    resources :payments do
+      collection do
+        get 'make_payment'
+      end
     end
-  end
 
-  resources :stores
+    resources :stores
 
-  resources :branches
+    resources :branches
 
-  resources :customers
+    resources :customers
 
-  resources :items do
-    get 'search'
-    collection do
+    resources :items do
       get 'search'
+      collection do
+        get 'search'
+      end
     end
+
+    resources :sales do
+      collection do
+        get 'update_line_item_options'
+        get 'update_customer_options'
+        get 'create_line_item'
+        get 'update_totals'
+        get 'add_item'
+        get 'remove_item'
+        get 'create_customer_association'
+        get 'create_custom_item'
+        get 'create_custom_customer'
+        get 'add_comment'
+        post 'override_price'
+        post 'sale_discount'
+        post 'rewards_redemption'
+      end
+    end
+
+    resources :dashboard do
+      collection do
+        get 'create_sale_with_product'
+        get 'switch_branch'
+      end
+    end
+
+    devise_for :users
+    resources :users do
+      collection do
+        post 'new_user'
+        get 'new_store_admin'
+        get 'new_branch_admin'
+        get 'new_staff'
+        get 'update_store_select'
+      end
+    end
+
   end
 
-  resources :sales do
-    collection do
-      get 'update_line_item_options'
-      get 'update_customer_options'
-      get 'create_line_item'
-      get 'update_totals'
-      get 'add_item'
-      get 'remove_item'
-      get 'create_customer_association'
-      get 'create_custom_item'
-      get 'create_custom_customer'
-      get 'add_comment'
-      post 'override_price'
-      post 'sale_discount'
-      post 'rewards_redemption'
-    end
-  end
+# The priority is based upon order of creation: first created -> highest priority.
+# See how all your routes lay out with "rake routes".
 
-  resources :dashboard do
-    collection do
-      get 'create_sale_with_product'
-      get 'switch_branch'
-    end
-  end
-
-  devise_for :users
-  resources :users do
-    collection do
-      post 'new_user'
-      get 'new_store_admin'
-      get 'new_branch_admin'
-      get 'new_staff'
-      get 'update_store_select'
-    end
-  end
-  # The priority is based upon order of creation: first created -> highest priority.
-  # See how all your routes lay out with "rake routes".
-
-  # You can have the root of your site routed with "root"
-  root 'dashboard#index'
+# You can have the root of your site routed with "root"
 
 # Example of regular route:
 #   get 'products/:id' => 'catalog#view'

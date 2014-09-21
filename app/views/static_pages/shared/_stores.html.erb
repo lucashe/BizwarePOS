@@ -1,0 +1,13 @@
+<div class="pos_wrapper">
+<% if stores.any? %>
+<ul id="stores" class="" >
+
+	<% stores.each do |store| %>
+	<li id="store_<%= store.id %>" class="col-sm-3">
+		<%= link_to truncate(store.store_name, :length => 50),  :title => store.store_name %>
+	</li>
+	<% end %>
+
+</ul>
+<% end %>
+</div>
