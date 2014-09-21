@@ -14,6 +14,7 @@
 
 			<tr>
 				<th>#</th>
+				<th></th>
 				<th>Category</th>
 				<th>Product</th>
 				<th>Sold</th>
@@ -25,6 +26,7 @@
 			<% items.each do |item| %>
 			<tr class="<%= get_store_stock_amount(@current_store, item) > 0 ? '' : 'danger' %>">
 				<td><%= item.sku %></td>
+				<td><%= image_tag(item.image_url(:tiny_thumbnail), class: "img-thumbnail")if item.image? %></td>
 				<td><%= item.item_category.blank? ? '-' : item.item_category.name %></td>
 				<td><%= item.name %></td>
 				<td><%= get_store_amount_sold(@current_store, item) %></td>

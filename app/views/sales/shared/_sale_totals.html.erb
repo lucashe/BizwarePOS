@@ -21,7 +21,7 @@
 		<table class="table table-condensed">
 			<tr>
 				<td><label>Subtotal</label></td>
-				<td>+ <%= number_to_currency(@sale.amount, unit: '$')%> (GST: <%= number_to_currency(@sale.tax, unit: '$') %>)</td>
+				<td colspan="2">+ <%= number_to_currency(@sale.amount, unit: '$')%> (GST: <%= number_to_currency(@sale.tax, unit: '$') %>)</td>
 			</tr>
 			<tr>
 				<td><label>Discount</label></td>
@@ -41,17 +41,17 @@
 					<input type="checkbox" class="sale-reward-select" <%if @sale.rewards_used>0%>
 					checked<%end%>>
 					Redeem Rewards </label></td>
-				<td><%if @sale.rewards_used>0%>- <%= number_to_currency(@sale.rewards_used, unit: '$')%> <%end%></td>
+				<td colspan="2"><%if @sale.rewards_used>0%>- <%= number_to_currency(@sale.rewards_used, unit: '$')%> <%end%></td>
 			</tr>
 			<%end%>
 			<tr class="price_output">
 				<td>Total</td>
-				<td><%= number_to_currency(@sale.total_amount, unit: '$') %></td>
+				<td colspan="2"><%= number_to_currency(@sale.total_amount, unit: '$') %></td>
 			</tr>
 			<%unless @sale.customer.blank? || @current_store.member_reward==0%>
 			<tr>
 				<td><label>Rewards Earned</label></td>
-				<td>+ <%= number_to_currency(@sale.rewards_earned, unit: '$') %></td>
+				<td colspan="2">+ <%= number_to_currency(@sale.rewards_earned, unit: '$') %></td>
 			</tr>
 			<%end%>
 		</table>
