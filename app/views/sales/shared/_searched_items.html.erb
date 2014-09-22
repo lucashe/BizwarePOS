@@ -11,9 +11,9 @@
 			<tr>
 				<% for item in item_row %>
 				<td class="add_to_current_sale"><%= link_to url_for(:controller => 'sales', :action => 'create_line_item', :item_id => item.id, :sale_id => @sale.id, :quantity => 1, :branch_id => @current_branch_id), :remote => true do %>
-				<p style="margin: 10px 5px">
+				<p style="margin: 5px 5px">
 					<label ><%= item.name %></label>
-				</p></td><% end %>
+				</p></td><%end %>
 				<% end %>
 			</tr>
 			<% end %>

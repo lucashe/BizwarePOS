@@ -45,6 +45,11 @@ body {
   }
 }
 
+
+/* ==========================================================================
+Sales
+========================================================================== */
+
 .chardin_box {
   display: inline-block;
   padding-left: 15px
@@ -92,12 +97,20 @@ body {
 }
 
 .form-control_big_font {
-    font-size: 18px;
-    padding: 4px 4px;
+  font-size: 16px;
+  padding: 4px 4px;
 }
 
 .pagination{
   margin :0px;
+}
+
+.product_name{
+  font-size: 16px;
+}
+
+.price_control{
+   background: #dff0d8;
 }
 
 
@@ -200,8 +213,8 @@ clear:both;
 .amount {
   .form-control {
     display: inline-block;
-    width: 70%;
-    vertical-align: top;
+    width: 100%;
+    vertical-align: middle;
   }
   .adjust {
     display: inline-block;

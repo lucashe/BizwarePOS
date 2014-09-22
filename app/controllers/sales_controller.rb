@@ -185,6 +185,7 @@ class SalesController < ApplicationController
     respond_to do |format|
       format.js { ajax_refresh }
     end
+    
   end
 
   def remove_all_item

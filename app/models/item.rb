@@ -24,13 +24,16 @@ class Item < ActiveRecord::Base
 
   scope :search_query, lambda { |query|
     return nil  if query.blank?
+
     # condition query, parse into individual keywords
-    terms = query.downcase.split(/\s+/)
+    terms = query.to_s.downcase.split(/\s+/)
+
     # replace "*" with "%" for wildcard searches,
     # append '%', remove duplicate '%'s
     terms = terms.map { |e|
-      (e.gsub('*', '%') + '%').gsub(/%+/, '%')
+      ('%' + e.to_s + '%').gsub(/%+/, '%')
     }
+
     # configure number of OR conditions for provision
     # of interpolation arguments. Adjust this if you
     # change the number of OR conditions.
@@ -42,6 +45,7 @@ class Item < ActiveRecord::Base
         ].join(' OR ')
         "(#{ or_clauses })"
       }.join(' AND '),
+
       *terms.map { |e| [e] * num_or_conditions }.flatten
     )
   }
@@ -56,6 +60,14 @@ class Item < ActiveRecord::Base
     case sort_option.to_s
     when /^name_/
       order("LOWER(items.name) #{ direction }")
+    when /^price_/
+      order("items.price #{ direction }")
+    when /^sold_/
+      joins(:branch_items).select("sku,item_category_id,name,price,items.id,image,sum(branch_items.amount_sold) as amount_sold").
+      group("sku,item_category_id,name,price,items.id,image").order("amount_sold #{ direction }")
+    when /^stock_/
+      joins(:branch_items).select("sku,item_category_id,name,price,items.id,image,sum(branch_items.stock_amount) as stock_amount").
+      group("sku,item_category_id,name,price,items.id,image").order("stock_amount #{ direction }")
     else
       raise(ArgumentError, "Invalid sort option: #{ sort_option.inspect }")
     end
@@ -63,7 +75,13 @@ class Item < ActiveRecord::Base
   def self.options_for_sorted_by
     [
       ['Product (a-z)', 'name_asc'],
-      ['Product (z-a)', 'name_desc']
+      ['Product (z-a)', 'name_desc'],
+      ['Sold (least-most)', 'sold_asc'],
+      ['Sold (most-least)', 'sold_desc'],
+      ['Stock (least-most)', 'stock_asc'],
+      ['Stock (most-least)', 'stock_desc'],
+      ['Price (lowest-highest)', 'price_asc'],
+      ['Price (highest-lowest)', 'price_desc']
     ]
   end
 

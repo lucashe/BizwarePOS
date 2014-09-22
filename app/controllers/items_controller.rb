@@ -14,7 +14,6 @@ class ItemsController < ApplicationController
      @items = Item.filterrific_find(@filterrific).where("store_id = ? AND published = true", @current_store_id).page(params[:page]).per(10)
      
      #session[:filterrific_items] = @filterrific.to_hash
-
      respond_to do |format|
       format.html
       format.js

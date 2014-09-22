@@ -88,3 +88,6 @@ pickle-email-*.html
 
 # Ignore tmp upload files
 /public/uploads/tmp/*
+
+# Ignore CarrierWave credentials
+/config/initializers/carrierwave.rb

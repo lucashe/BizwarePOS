@@ -5,7 +5,7 @@ class Sale < ActiveRecord::Base
   belongs_to :branch
 
   has_many :line_items, dependent: :destroy
-  has_many :items, :through => :line_items
+  has_many :items, :through => :line_items, :order => 'line_items.created_at'
   has_many :payments, dependent: :destroy
 
   accepts_nested_attributes_for :line_items, :allow_destroy => true
@@ -41,12 +41,12 @@ class Sale < ActiveRecord::Base
 
   def change_due
     if self.total_amount.blank?
-      return 0.00
+    return 0.00
     else
       if paid_total > self.total_amount
         return paid_total - self.total_amount
       else
-        return 0.00
+      return 0.00
       end
     end
   end
