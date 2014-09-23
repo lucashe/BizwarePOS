@@ -11,10 +11,9 @@
 
 	<div class="table-responsive">
 		<table class="table table-striped table-bordered table-hover">
-
 			<tr>
-				<th>#</th>
-				<th></th>
+				<th>SKU</th>
+				<th>Photo</th>
 				<th>Category</th>
 				<th>Product</th>
 				<th>Sold</th>
@@ -25,7 +24,7 @@
 
 			<% items.each do |item| %>
 			<tr class="<%= get_store_stock_amount(@current_store, item) > 0 ? '' : 'danger' %>">
-				<td><%= item.sku %></td>
+				<td><%if not item.qr_code.nil? %><%= image_tag item.qr_code.url, height: '100', width: '100' %><%end%></td>
 				<td><%= image_tag(item.image_url(:tiny_thumbnail), class: "img-thumbnail")if item.image? %></td>
 				<td><%= item.item_category.blank? ? '-' : item.item_category.name %></td>
 				<td><%= item.name %></td>

@@ -1,6 +1,7 @@
 class Item < ActiveRecord::Base
 
   mount_uploader :image, ImageUploader
+  dragonfly_accessor :qr_code
 
   belongs_to :store
   belongs_to :item_category
@@ -63,15 +64,16 @@ class Item < ActiveRecord::Base
     when /^price_/
       order("items.price #{ direction }")
     when /^sold_/
-      joins(:branch_items).select("sku,item_category_id,name,price,items.id,image,sum(branch_items.amount_sold) as amount_sold").
-      group("sku,item_category_id,name,price,items.id,image").order("amount_sold #{ direction }")
+      joins(:branch_items).select("sku,item_category_id,name,price,items.id,image,qr_code_uid,qr_code_name,sum(branch_items.amount_sold) as amount_sold").
+      group("sku,item_category_id,name,price,items.id,image,qr_code_uid,qr_code_name").order("amount_sold #{ direction }")
     when /^stock_/
-      joins(:branch_items).select("sku,item_category_id,name,price,items.id,image,sum(branch_items.stock_amount) as stock_amount").
-      group("sku,item_category_id,name,price,items.id,image").order("stock_amount #{ direction }")
+      joins(:branch_items).select("sku,item_category_id,name,price,items.id,image,qr_code_uid,qr_code_name,sum(branch_items.stock_amount) as stock_amount").
+      group("sku,item_category_id,name,price,items.id,image,qr_code_uid,qr_code_name").order("stock_amount #{ direction }")
     else
       raise(ArgumentError, "Invalid sort option: #{ sort_option.inspect }")
     end
   }
+  
   def self.options_for_sorted_by
     [
       ['Product (a-z)', 'name_asc'],
@@ -83,6 +85,13 @@ class Item < ActiveRecord::Base
       ['Price (lowest-highest)', 'price_asc'],
       ['Price (highest-lowest)', 'price_desc']
     ]
+  end
+
+  def generate_sku
+    self.sku = loop do
+      random_token = SecureRandom.urlsafe_base64(nil, false)
+      break random_token unless Item.exists?(sku: random_token)
+    end
   end
 
 end

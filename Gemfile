@@ -47,4 +47,7 @@ gem 'simple_form'
 gem 'carrierwave'
 gem "fog", "~> 1.3.1"
 gem 'mini_magick'
+gem 'rqrcode_png'
+gem 'dragonfly', '~> 1.0.7'
+
 

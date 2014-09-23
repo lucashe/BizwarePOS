@@ -52,6 +52,10 @@ class ItemsController < ApplicationController
 
     @item = @current_store.items.build(item_params)
     @item.published = true
+    @item.generate_sku
+    
+    qr_code_img = RQRCode::QRCode.new(@item.sku, :size => 4, :level => :m).to_img.resize(200, 200)
+    @item.qr_code = qr_code_img.to_string
 
     respond_to do |format|
       if @item.save        
@@ -69,6 +73,18 @@ class ItemsController < ApplicationController
   def update
 
     respond_to do |format|
+      
+      # Generate SKU if blank
+      if @item.sku.blank?
+        @item.generate_sku
+        qr_code_img = RQRCode::QRCode.new(@item.sku, :size => 4, :level => :m).to_img.resize(200, 200)
+        @item.qr_code = qr_code_img.to_string
+        if not @item.save
+           format.html { render action: 'edit' }
+           format.json { render json: @item.errors, status: :unprocessable_entity }
+        end
+      end
+      
       if @item.update(item_params)
         format.html { redirect_to items_path, notice: 'Item was successfully updated.' }
         format.json { head :no_content }
@@ -107,6 +123,6 @@ class ItemsController < ApplicationController
 
   # Never trust parameters from the scary internet, only allow the white list through.
   def item_params
-    params.require(:item).permit(:image, :image_cache, :sku, :name, :description, :price, :cost_price, :item_category_id, :published, branch_items_attributes: [:id,:branch_id,:stock_amount])
+    params.require(:item).permit(:image, :image_cache,:name, :description, :price, :cost_price, :item_category_id, :published, branch_items_attributes: [:id,:branch_id,:stock_amount])
   end
 end
